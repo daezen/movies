@@ -4,7 +4,7 @@ import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
 ---
 
-<header class="px-12 text-xl">
+<header class="px-12 text-xl mb-8">
   <div class="image rounded-3xl">
     <div class="shadow">
       <section class="px-24 max-w-[850px] h-screen flex justify-center flex-col gap-5">
@@ -15,7 +15,7 @@ import Plus from '../icons/Plus.astro'
           <span class="text-zinc-400">•</span>
           <p>2023</p>
           <span class="text-zinc-400">•</span>
-          <p class="bg-zinc-50 bg-opacity-30 rounded-full px-5">16+</p>
+          <p class="bg-zinc-50 bg-opacity-10 border border-zinc-600 backdrop-blur-lg rounded-full px-5">16+</p>
           <span class="text-zinc-400">•</span>
           <p>Fantasy, Action, Adventure.</p>
         </div>
@@ -33,7 +33,7 @@ import Plus from '../icons/Plus.astro'
           </div>
         </div>
         <div class="flex gap-4">
-          <button class="custom-hover bg-rose-600 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-6 rounded-full border-2 border-rose-500"><Play />Play Now</button>
+          <button class="custom-hover bg-rose-600 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-6 rounded-full border-2 border-rose-400"><Play />Play Now</button>
           <button class="custom-hover2 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-5 bg-zinc-100 bg-opacity-15 rounded-full border-2 border-zinc-500 backdrop-blur-md"
             ><Plus />My Watchlist</button
           >
@@ -60,7 +60,7 @@ import Plus from '../icons/Plus.astro'
     border-radius: 9999px;
     background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 69%);
     opacity: 0;
-    transition: 0.75s;
+    transition: 0.5s ease-out;
   }
   .custom-hover:hover::after {
     opacity: 1;
