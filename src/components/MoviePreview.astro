@@ -1,7 +1,8 @@
 ---
-const { src, alt } = Astro.props
+const { src, alt, name } = Astro.props
 ---
 
-<div class="flex-none h-52 aspect-video bg-zinc-600 rounded-3xl overflow-hidden">
-  <img class="object-cover h-full" src={src} alt={alt} />
+<div class="flex-none flex flex-col gap-2">
+  <img class="object-cover rounded-3xl bg-zinc-600 h-52 aspect-video select-none" src={src} alt={alt} draggable="false" />
+  <p class="text-lg font-bold">{name}</p>
 </div>
