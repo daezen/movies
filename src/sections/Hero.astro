@@ -2,39 +2,49 @@
 import ThumbsUp from '../icons/ThumbsUp.astro'
 import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
+import Actor from '../components/Actor.astro'
 ---
 
-<header class="px-12 text-xl mb-8">
-  <div class="image rounded-3xl overflow-hidden">
+<header class="px-12 text-xl mb-8 relative">
+  <img src="/howtotrainyourdragon_bg.jpg" class="absolute blur-[128px] h-[150%] w-[150%] z-[-1]" />
+  <div class="relative image rounded-3xl overflow-hidden shadow-2xl">
     <div class="shadow">
-      <section class="px-24 max-w-[850px] h-screen flex justify-center flex-col gap-5">
+      <section class="px-20 max-w-[850px] h-screen flex justify-center flex-col gap-5">
         <img src="/howtotrainyourdragon_logo.png" alt="movie logo" />
-        <div class="flex gap-3 items-center">
-          <span class="aspect-square h-6 text-green-500"><ThumbsUp /></span>
-          <p><span class="text-green-500">98% </span>Likes</p>
-          <span class="text-zinc-400">•</span>
-          <p>2023</p>
-          <span class="text-zinc-400">•</span>
-          <p class="bg-zinc-100 bg-opacity-20 border border-zinc-600 backdrop-blur-lg rounded-full px-5">16+</p>
-          <span class="text-zinc-400">•</span>
-          <p>Fantasy, Action, Adventure.</p>
-        </div>
-        <p class="leading-relaxed text-zinc-400">Five years have passed since Hiccup and Toothless united the dragons and Vikings of Berk. Now, they spend their time charting unmapped territories.</p>
-        <div class="mb-6">
-          <h3 class="font-semibold mb-4">STARRING:</h3>
-          <div class="flex gap-4">
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/hiccup.webp" alt="hiccup" />
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/valka.webp" alt="" />
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/stoick.webp" alt="" />
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/astrid.webp" alt="" />
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/gobber.webp" alt="" />
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/snotlout.webp" alt="" />
-            <img class="rounded-full h-14 aspect-square object-cover" src="/howtotrainyourdragon_cast/juanma.png" alt="juanma" />
+        <div class="px-2 py-1 bg-zinc-950 bg-opacity-40 backdrop-blur-3xl rounded-3xl">
+          <div class="flex gap-3 items-center px-2 py-1 rounded-lg">
+            <span class="aspect-square h-6 text-green-500"><ThumbsUp /></span>
+            <p><span class="text-green-500">98% </span>Likes</p>
+            <span class="text-zinc-400">•</span>
+            <p>2023</p>
+            <span class="text-zinc-400">•</span>
+            <p class="bg-zinc-100 bg-opacity-20 border border-zinc-600 backdrop-blur-lg rounded-full px-5">16+</p>
+            <span class="text-zinc-400">•</span>
+            <p>Fantasy, Action, Adventure.</p>
+          </div>
+          <p class="leading-relaxed text-zinc-400 px-2 py-1 rounded-lg">
+            Five years have passed since Hiccup and Toothless united the dragons and Vikings of Berk. Now, they spend their time charting unmapped territories.
+          </p>
+          <div>
+            <h3 class="font-semibold mb-4">STARRING:</h3>
+            <div class="flex gap-4">
+              <Actor src="/howtotrainyourdragon_cast/hiccup.webp" />
+              <Actor src="/howtotrainyourdragon_cast/valka.webp" />
+              <Actor src="/howtotrainyourdragon_cast/stoick.webp" />
+              <Actor src="/howtotrainyourdragon_cast/astrid.webp" />
+              <Actor src="/howtotrainyourdragon_cast/gobber.webp" />
+              <Actor src="/howtotrainyourdragon_cast/snotlout.webp" />
+              <Actor src="/howtotrainyourdragon_cast/juanma.png" />
+            </div>
           </div>
         </div>
-        <div class="flex gap-4">
-          <button class="custom-hover bg-rose-600 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-6 rounded-full border-2 border-rose-500"><Play />Play Trailer</button>
-          <button class="custom-hover2 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-5 bg-zinc-100 bg-opacity-15 rounded-full border-2 border-zinc-500 backdrop-blur-md"
+
+        <div class="flex gap-4 mt-6">
+          <button class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-6 rounded-full border-2 border-rose-500"
+            ><Play />Play Trailer</button
+          >
+          <button
+            class="relative overflow-hidden custom-hover gradient-two flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-5 bg-zinc-100 bg-opacity-15 rounded-full border-2 border-zinc-500 backdrop-blur-md"
             ><Plus />My Watchlist</button
           >
         </div>
@@ -47,38 +57,23 @@ import Plus from '../icons/Plus.astro'
     background: url(/howtotrainyourdragon_bg.jpg) center / cover no-repeat;
   }
   .shadow {
-    background: linear-gradient(to right, black 0%, transparent 100%), linear-gradient(to top, black 0%, transparent 25%);
-  }
-  .custom-hover {
-    position: relative;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.75) 25%, transparent 100%);
   }
   .custom-hover::after {
-    content: '';
     position: absolute;
+    content: '';
     width: 100%;
     height: 100%;
-    border-radius: 9999px;
-    background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 69%);
-    opacity: 0;
     transition: 0.5s ease-out;
+    opacity: 0;
   }
   .custom-hover:hover::after {
     opacity: 1;
   }
-  .custom-hover2 {
-    position: relative;
+  .gradient-one::after {
+    background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 69%);
   }
-  .custom-hover2::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 9999px;
+  .gradient-two::after {
     background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 69%);
-    opacity: 0;
-    transition: 0.5s ease-out;
-  }
-  .custom-hover2:hover::after {
-    opacity: 1;
   }
 </style>
