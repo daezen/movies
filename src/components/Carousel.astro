@@ -18,7 +18,7 @@ const res = await fetch(url, options)
 const { results: movies } = await res.json()
 ---
 
-<section class="flex gap-4 px-12 mb-8 w-screen overflow-auto" data-carousel>
+<section class="flex gap-4 px-12 mb-8 w-screen overflow-auto border" data-carousel>
   {movies.map(movie => <MoviePreview src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`} name={movie.title} />)}
 </section>
 
@@ -31,4 +31,35 @@ const { results: movies } = await res.json()
   }
 </style>
 
-<script></script>
+<script>
+  const $carousels = document.querySelectorAll('[data-carousel]')
+  let position = { left: 0, x: 0 }
+
+  function mouseDownHandler(e) {
+    const element = e.target.closest('section')
+    console.log(element)
+    position = {
+      left: element.scrollLeft,
+      x: e.clientX,
+    }
+    element.addEventListener('mousemove', mouseMoveHandler)
+    element.addEventListener('mouseup', mouseUpHandler)
+    element.addEventListener('mouseleave', mouseUpHandler)
+  }
+
+  function mouseMoveHandler(e) {
+    const element = e.target.closest('section')
+    const dx = e.clientX - position.x
+    element.scrollLeft = position.left - dx * 1.5
+  }
+
+  function mouseUpHandler(e) {
+    const element = e.target.closest('section')
+    element.removeEventListener('mousemove', mouseMoveHandler)
+    element.removeEventListener('mouseup', mouseUpHandler)
+    element.removeEventListener('mouseleave', mouseUpHandler)
+  }
+
+  $carousels.forEach(carousel => (carousel.scrollLeft = 0))
+  $carousels.forEach(carousel => carousel.addEventListener('mousedown', mouseDownHandler))
+</script>

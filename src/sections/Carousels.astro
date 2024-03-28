@@ -3,41 +3,9 @@ import Carousel from '../components/Carousel.astro'
 ---
 
 <div>
-  <p class="px-12 mb-4 text-2xl font-semibold">Trending</p>
+  <p class="px-12 mb-4 text-2xl font-semibold select-none">Trending</p>
   <Carousel kind="trending" />
 
-  <p class="px-12 mb-4 text-2xl font-semibold">Top Rated</p>
+  <p class="px-12 mb-4 text-2xl font-semibold select-none">Top Rated</p>
   <Carousel kind="toprated" />
 </div>
-
-<script>
-  const $carousels = document.querySelectorAll('[data-carousel]')
-  let position = { left: 0, x: 0 }
-
-  function mouseDownHandler(e) {
-    const element = e.target.closest('section')
-    position = {
-      left: element.scrollLeft,
-      x: e.clientX,
-    }
-    element.addEventListener('mousemove', mouseMoveHandler)
-    element.addEventListener('mouseup', mouseUpHandler)
-    element.addEventListener('mouseleave', mouseUpHandler)
-  }
-
-  function mouseMoveHandler(e) {
-    const element = e.target.closest('section')
-    const dx = e.clientX - position.x
-    element.scrollLeft = position.left - dx
-  }
-
-  function mouseUpHandler(e) {
-    const element = e.target.closest('section')
-    element.removeEventListener('mousemove', mouseMoveHandler)
-    element.removeEventListener('mouseup', mouseUpHandler)
-    element.removeEventListener('mouseleave', mouseUpHandler)
-  }
-
-  $carousels.forEach(carousel => (carousel.scrollLeft = 0))
-  $carousels.forEach(carousel => carousel.addEventListener('mousedown', mouseDownHandler))
-</script>

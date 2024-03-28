@@ -6,7 +6,7 @@ import Actor from '../components/Actor.astro'
 ---
 
 <header class="px-12 text-xl mb-8 relative">
-  <img src="/howtotrainyourdragon_bg.jpg" class="absolute blur-[128px] h-[150%] w-[150%] z-[-1]" />
+  <img src="/howtotrainyourdragon_bg.jpg" class="absolute blur-[256px] z-[-1]" />
   <div class="relative image rounded-3xl overflow-hidden shadow-2xl">
     <div class="shadow">
       <section class="px-20 max-w-[850px] h-screen flex justify-center flex-col gap-5">
@@ -25,7 +25,7 @@ import Actor from '../components/Actor.astro'
           <p class="leading-relaxed text-zinc-400 px-2 py-1 rounded-lg">
             Five years have passed since Hiccup and Toothless united the dragons and Vikings of Berk. Now, they spend their time charting unmapped territories.
           </p>
-          <div>
+          <div class="py-1">
             <h3 class="font-semibold mb-4">STARRING:</h3>
             <div class="flex gap-4">
               <Actor src="/howtotrainyourdragon_cast/hiccup.webp" />
@@ -57,7 +57,7 @@ import Actor from '../components/Actor.astro'
     background: url(/howtotrainyourdragon_bg.jpg) center / cover no-repeat;
   }
   .shadow {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.75) 25%, transparent 100%);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5) 25%, transparent 100%);
   }
   .custom-hover::after {
     position: absolute;
