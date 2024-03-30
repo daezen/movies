@@ -32,36 +32,32 @@ const { results: movies } = await res.json()
 </style>
 
 <script>
-  const $carousels = document.querySelectorAll('[data-carousel]')
-  let position = { left: 0, x: 0 }
+  let pos = { left: 0, x: 0 }
 
   function mouseDownHandler(e) {
-    let element
-    if (e.target.matches('section')) element = e.target
-    else element = e.target.closest('section')
-    // const element = e.target.closest('section')
-    position = {
+    const element = e.target.closest('section')
+    if (element === null) return
+    if (!element.hasAttribute('data-carousel')) return
+
+    pos = {
       left: element.scrollLeft,
       x: e.clientX,
     }
-    element.addEventListener('mousemove', mouseMoveHandler)
-    element.addEventListener('mouseleave', mouseUpHandler)
-    element.addEventListener('mouseup', mouseUpHandler)
+    document.addEventListener('mousemove', mouseMoveHandler)
+    document.addEventListener('mouseup', mouseUpHandler)
   }
 
   function mouseMoveHandler(e) {
     const element = e.target.closest('section')
-    const dx = e.clientX - position.x
-    element.scrollLeft = position.left - dx * 1.5
+    const dx = e.clientX - pos.x
+    element.scrollLeft = pos.left - dx * 1.5
   }
 
-  function mouseUpHandler(e) {
-    const element = e.target.closest('section')
-    element.removeEventListener('mousemove', mouseMoveHandler)
-    element.removeEventListener('mouseleave', mouseUpHandler)
-    element.removeEventListener('mouseup', mouseUpHandler)
+  function mouseUpHandler({ target: $ }) {
+    const element = $.closest('section')
   }
 
-  $carousels.forEach(carousel => (carousel.scrollLeft = 0))
-  $carousels.forEach(carousel => carousel.addEventListener('mousedown', mouseDownHandler))
+  document.addEventListener('mousedown', mouseDownHandler)
+  document.body.addEventListener('mouseenter', () => {})
+  document.body.addEventListener('mouseleave', () => {})
 </script>

@@ -6,8 +6,8 @@ const { src, alt, name, rating } = Astro.props
 
 <div class="flex-none flex flex-col gap-2">
   <img class="object-cover rounded-3xl bg-zinc-600 h-56 aspect-video select-none" src={src} alt={alt} draggable="false" />
-  <div class="flex justify-between">
-    <p class="text-lg font-bold select-none">{name}</p>
-    <span class="flex h-full">{Math.floor(rating)} <Star /></span>
+  <div class="flex justify-between items-center">
+    <p class="text-lg font-bold select-none truncate">{name}</p>
+    <span class="flex h-4 aspect-square items-center gap-2 select-none">{Math.round(rating * 10) / 10} <Star /></span>
   </div>
 </div>
