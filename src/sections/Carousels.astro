@@ -2,10 +2,42 @@
 import Carousel from '../components/Carousel.astro'
 ---
 
-<div>
-  <p class="px-12 mb-4 text-2xl font-semibold select-none">Trending</p>
+<div data-carousels>
+  <p class="mb-4 text-2xl font-semibold select-none">Trending</p>
   <Carousel kind="trending" />
 
-  <p class="px-12 mb-4 text-2xl font-semibold select-none">Top Rated</p>
+  <p class="mb-4 text-2xl font-semibold select-none">Top Rated</p>
   <Carousel kind="toprated" />
 </div>
+
+<script>
+  import { qs, $on, $off } from '../lib/helpers'
+  const $carousels = qs('[data-carousels]')
+  const speed = 1
+  let $carousel
+  let pos = { l: 0, x: 0 }
+
+  function mouseDownHandler({ target: element, pageX: x }) {
+    $carousel = element.closest('[data-carousel]')
+    if ($carousel === null) return
+    pos = {
+      l: $carousel.scrollLeft,
+      x: x - $carousel.offsetLeft,
+    }
+    $on(document, 'mousemove', mouseMoveHandler)
+    $on(document, 'mouseup', mouseUpHandler)
+  }
+
+  function mouseMoveHandler(e) {
+    const x = e.pageX - $carousel.offsetLeft
+    const dx = (x - pos.x) * speed
+    $carousel.scrollLeft = pos.l - dx
+  }
+
+  function mouseUpHandler() {
+    $off(document, 'mousemove', mouseMoveHandler)
+    $off(document, 'mouseup', mouseUpHandler)
+  }
+
+  $on($carousels, 'mousedown', mouseDownHandler)
+</script>

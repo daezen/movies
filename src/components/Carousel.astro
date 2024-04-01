@@ -18,39 +18,15 @@ const res = await fetch(url, options)
 const { results: movies } = await res.json()
 ---
 
-<section class="flex gap-4 px-12 mb-8 w-screen overflow-auto" data-carousel={kind}>
+<div class="flex gap-4 mb-8 w-screen overflow-auto pr-20" data-carousel={kind}>
   {movies.map(movie => <MoviePreview src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`} name={movie.title} rating={movie.vote_average} />)}
-</section>
+</div>
 
 <style>
-  section[data-carousel]::-webkit-scrollbar {
+  div[data-carousel]::-webkit-scrollbar {
     display: none;
   }
-  section[data-carousel] {
+  div[data-carousel] {
     scrollbar-width: none;
   }
 </style>
-
-<script>
-  import { qs, qsa } from '../lib/helpers'
-  const $carousels = qsa('[data-carousel]')
-  let pos = { left: 0, x: 0 }
-  let isMouseDown = false
-
-  function mouseDownHandler(e, element) {
-    pos = {
-      left: element.scrollLeft,
-      x: e.clientX,
-    }
-  }
-
-  function mouseMoveHandler(e, $) {
-    let dx = e.clientX - pos.x
-    console.log($)
-    $.scrollLeft = pos.left - dx
-  }
-
-  $carousels.forEach(carousel => {
-    carousel.addEventListener('mousedown', e => mouseDownHandler(e, carousel))
-  })
-</script>
