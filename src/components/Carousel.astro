@@ -1,16 +1,9 @@
 ---
 import MoviePreview from './MoviePreview.astro'
+import options from '../lib/api'
 const { kind } = Astro.props
 const popular = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1'
 const toprated = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1'
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMGI1NDAxZjVmNGZkMjRiOTJkYmMyOGVkYmJmMWU5MyIsInN1YiI6IjY1ZjVmYTgwODFkYTM5MDE4NjYxNTJjZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3UWDsNuJsyGQ_UQSFZ7Hkq0UqcvOMmQwwKpVnE_8jaw',
-  },
-}
 let url
 if (kind === 'trending') url = popular
 if (kind === 'toprated') url = toprated
