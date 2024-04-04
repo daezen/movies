@@ -5,9 +5,9 @@ const { src, name, rating } = Astro.props
 ---
 
 <div class="cursor-pointer">
-  <div class="h-56 aspect-video bg-zinc-600 select-none rounded-3xl overflow-hidden bg-[]" style=`background: center/cover url(${src});`></div>
+  <div class="h-56 aspect-video bg-zinc-600 select-none rounded-3xl overflow-hidden" style=`background: center/cover url(${src});`></div>
   <div class="flex justify-between items-center">
     <p class="text-lg font-bold select-none truncate">{name}</p>
-    <span class="flex h-4 w-4 items-center gap-2 select-none">{Math.round(rating * 10) / 10} <Star /></span>
+    <span class="flex h-4 items-center gap-2 select-none">{Math.round(rating * 10) / 10} <Star /></span>
   </div>
 </div>

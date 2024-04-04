@@ -17,27 +17,27 @@ import Carousel from '../components/Carousel.astro'
   let $carousel
   let pos = { l: 0, x: 0 }
 
-  function mouseDownHandler({ target: element, pageX: x }) {
-    $carousel = element.closest('[data-carousel]')
+  function onMouseDown({ target, pageX: x }) {
+    $carousel = target.closest('[data-carousel]')
     if ($carousel === null) return
     pos = {
       l: $carousel.scrollLeft,
       x: x - $carousel.offsetLeft,
     }
-    $on(document, 'mousemove', mouseMoveHandler)
-    $on(document, 'mouseup', mouseUpHandler)
+    $on(document, 'mousemove', onMouseMove)
+    $on(document, 'mouseup', onMouseUp)
   }
 
-  function mouseMoveHandler(e) {
+  function onMouseMove(e) {
     const x = e.pageX - $carousel.offsetLeft
     const dx = (x - pos.x) * speed
     $carousel.scrollLeft = pos.l - dx
   }
 
-  function mouseUpHandler() {
-    $off(document, 'mousemove', mouseMoveHandler)
-    $off(document, 'mouseup', mouseUpHandler)
+  function onMouseUp() {
+    $off(document, 'mousemove', onMouseMove)
+    $off(document, 'mouseup', onMouseUp)
   }
 
-  $on($carousels, 'mousedown', mouseDownHandler)
+  $on($carousels, 'mousedown', onMouseDown)
 </script>
