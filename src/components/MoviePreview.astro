@@ -1,13 +1,39 @@
 ---
 import Star from '../icons/Star.astro'
+import Play from '../icons/Play.astro'
 
 const { src, name, rating } = Astro.props
 ---
 
-<div class="cursor-pointer">
-  <div class="h-56 aspect-video bg-zinc-600 select-none rounded-3xl overflow-hidden" style=`background: center/cover url(${src});`></div>
+<div>
+  <div class="h-56 aspect-video bg-zinc-800 select-none rounded-3xl overflow-hidden relative cursor-pointer mb-2 bg transition-all" style=`background-image: url(${src});`>
+    <div class="custom-hover w-full h-full grid place-items-center absolute">
+      <div class="h-16 aspect-square rounded-full p-4">
+        <Play />
+      </div>
+    </div>
+  </div>
   <div class="flex justify-between items-center">
-    <p class="text-lg font-bold select-none truncate">{name}</p>
+    <p class="text-lg font-bold select-none truncate cursor-pointer hover:text-rose-100">{name}</p>
     <span class="flex h-4 items-center gap-2 select-none">{Math.round(rating * 10) / 10} <Star /></span>
   </div>
+
+  <style define:vars={{ image: src }}>
+    .custom-hover {
+      @apply transition w-full h-full absolute bg-zinc-950 bg-opacity-50 opacity-0;
+    }
+
+    .custom-hover:hover {
+      @apply opacity-100;
+    }
+
+    .bg {
+      background-position: center;
+      background-size: 100%;
+    }
+
+    .bg:hover {
+      background-size: 105%;
+    }
+  </style>
 </div>

@@ -28,8 +28,8 @@ import Carousel from '../components/Carousel.astro'
     $on(document, 'mouseup', onMouseUp)
   }
 
-  function onMouseMove(e) {
-    const x = e.pageX - $carousel.offsetLeft
+  function onMouseMove({ pageX }) {
+    const x = pageX - $carousel.offsetLeft
     const dx = (x - pos.x) * speed
     $carousel.scrollLeft = pos.l - dx
   }
