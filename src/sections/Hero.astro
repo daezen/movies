@@ -3,31 +3,15 @@ import ThumbsUp from '../icons/ThumbsUp.astro'
 import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
 import Actor from '../components/Actor.astro'
-import options from '../lib/api'
-const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
-const { results: movies } = await res.json()
-const randomNumber = Math.floor(Math.random() * 10) + 1
-const randomMovie = movies[randomNumber]
-const IMG_SIZE = {
-  small: 'w300/',
-  medium: 'w780/',
-  large: 'w1280/',
-  og: 'original/',
-}
-const IMAGE_URL = `https://image.tmdb.org/t/p/`
-const imagesRes = await fetch(`https://api.themoviedb.org/3/movie/${randomMovie.id}/images?language=en-US&include_image_language=en`, options)
-const { logos } = await imagesRes.json()
-const movieRating = (randomMovie.vote_average / 10) * 100
-const releaseYear = new Date(randomMovie.release_date).getFullYear()
-console.log(logos)
+import { randomMovie, logoSrc, movieBackdrop, movieRating, releaseYear, cast, genres, IMG_URL } from '../../src/lib/hero.js'
 ---
 
 <header class="text-xl mb-8 relative">
-  <img src={`${IMAGE_URL}${IMG_SIZE.medium}${randomMovie.backdrop_path}`} class="absolute blur-[256px] z-[-1]" />
-  <div class="relative image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${IMAGE_URL}${IMG_SIZE.og}${randomMovie.backdrop_path});`>
+  <img src={movieBackdrop('og')} loading="lazy" class="absolute h-full w-full blur-[256px] z-[-1]" />
+  <div class="image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${movieBackdrop('og')});`>
     <div class="shadow">
-      <section class="px-20 max-w-[850px] h-screen flex justify-center flex-col gap-5">
-        <img src={`${IMAGE_URL}${IMG_SIZE.medium}${logos[0].file_path}`} alt="Movie logo" />
+      <section class="px-20 max-w-[950px] h-screen flex justify-center flex-col gap-5">
+        <img src={logoSrc} alt="Movie logo" />
         <div class="px-2 py-1 rounded-3xl">
           <div class="flex gap-3 items-center py-1 rounded-lg">
             <span class="aspect-square h-6 text-green-500"><ThumbsUp /></span>
@@ -37,7 +21,12 @@ console.log(logos)
             <span class="text-zinc-400">•</span>
             <p class="bg-zinc-100 bg-opacity-20 border border-zinc-600 backdrop-blur-lg rounded-full px-5">16+</p>
             <span class="text-zinc-400">•</span>
-            <p>Fantasy, Action, Adventure.</p>
+            {
+              genres.slice(0, 3).map((genre, index) => {
+                if (index === genres.length - 1) return <p>{genre.name}</p>
+                else return <p>{genre.name},</p>
+              })
+            }
           </div>
           <p class="leading-relaxed text-zinc-200 py-2 mb-2 rounded-lg">
             {randomMovie.overview}
@@ -45,19 +34,21 @@ console.log(logos)
           <div class="py-1">
             <h3 class="font-semibold mb-2">STARRING</h3>
             <div class="flex gap-4">
-              <Actor src="/howtotrainyourdragon_cast/hiccup.webp" />
-              <Actor src="/howtotrainyourdragon_cast/valka.webp" />
-              <Actor src="/howtotrainyourdragon_cast/stoick.webp" />
-              <Actor src="/howtotrainyourdragon_cast/astrid.webp" />
-              <Actor src="/howtotrainyourdragon_cast/gobber.webp" />
-              <Actor src="/howtotrainyourdragon_cast/snotlout.webp" />
+              {
+                cast.slice(0, 6).map(actor => {
+                  if (actor.profile_path !== null) return <Actor src={`${IMG_URL}w185/${actor.profile_path}`} />
+                })
+              }
               <Actor src="/howtotrainyourdragon_cast/juanma.png" />
             </div>
           </div>
         </div>
 
         <div class="flex gap-4 mt-6">
-          <button class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-6 rounded-full border-2 border-rose-500"
+          <button
+            data-trailer
+            id={randomMovie.id}
+            class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-64 h-[72px] py-6 rounded-full border-2 border-rose-500"
             ><Play />Play Trailer</button
           >
           <button
@@ -69,6 +60,7 @@ console.log(logos)
     </div>
   </div>
 </header>
+
 <style>
   .image {
     background: center / cover no-repeat;
@@ -90,3 +82,21 @@ console.log(logos)
     background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 69%);
   }
 </style>
+
+<script>
+  import { qs, $on } from '../lib/helpers.js'
+  import options from '../lib/api'
+
+  async function findTrailer(e) {
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${e.target.id}/videos`, options)
+    const { results: trailers } = await res.json()
+    const trailer = trailers.filter(trailer => trailer.type == 'Trailer')
+    try {
+      window.open(`https://youtu.be/${trailer[0].key}`, '_blank')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  $on(qs('[data-trailer]'), 'click', findTrailer)
+</script>
