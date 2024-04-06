@@ -11,7 +11,8 @@ import Carousel from '../components/Carousel.astro'
 </div>
 
 <script>
-  import { qs, $on, $off } from '../lib/helpers'
+  import { qs, $on, $off } from '../lib/helpers.js'
+  import options from '../lib/api'
   const $carousels = qs('[data-carousels]')
   const speed = 2
   let $carousel
@@ -40,8 +41,16 @@ import Carousel from '../components/Carousel.astro'
   }
 
   async function findTrailer(e) {
+    if (e.target.tagName !== 'A') return
     e.preventDefault()
-    console.log(e.target)
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${e.target.id}/videos`, options)
+    const { results: trailers } = await res.json()
+    const trailer = trailers.filter(trailer => trailer.type == 'Trailer')
+    try {
+      window.open(`https://youtu.be/${trailer[0].key}`, '_blank')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   $on($carousels, 'click', findTrailer)

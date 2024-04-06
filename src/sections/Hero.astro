@@ -3,30 +3,47 @@ import ThumbsUp from '../icons/ThumbsUp.astro'
 import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
 import Actor from '../components/Actor.astro'
+import options from '../lib/api'
+const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
+const { results: movies } = await res.json()
+const randomNumber = Math.floor(Math.random() * 10) + 1
+const randomMovie = movies[randomNumber]
+const IMG_SIZE = {
+  small: 'w300/',
+  medium: 'w780/',
+  large: 'w1280/',
+  og: 'original/',
+}
+const IMAGE_URL = `https://image.tmdb.org/t/p/`
+const imagesRes = await fetch(`https://api.themoviedb.org/3/movie/${randomMovie.id}/images?language=en-US&include_image_language=en`, options)
+const { logos } = await imagesRes.json()
+const movieRating = (randomMovie.vote_average / 10) * 100
+const releaseYear = new Date(randomMovie.release_date).getFullYear()
+console.log(logos)
 ---
 
 <header class="text-xl mb-8 relative">
-  <img src="/howtotrainyourdragon_bg.jpg" class="absolute blur-[256px] z-[-1]" />
-  <div class="relative image rounded-3xl overflow-hidden shadow-2xl">
+  <img src={`${IMAGE_URL}${IMG_SIZE.medium}${randomMovie.backdrop_path}`} class="absolute blur-[256px] z-[-1]" />
+  <div class="relative image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${IMAGE_URL}${IMG_SIZE.og}${randomMovie.backdrop_path});`>
     <div class="shadow">
       <section class="px-20 max-w-[850px] h-screen flex justify-center flex-col gap-5">
-        <img src="/howtotrainyourdragon_logo.png" alt="movie logo" />
+        <img src={`${IMAGE_URL}${IMG_SIZE.medium}${logos[0].file_path}`} alt="Movie logo" />
         <div class="px-2 py-1 rounded-3xl">
-          <div class="flex gap-3 items-center px-2 py-1 rounded-lg">
+          <div class="flex gap-3 items-center py-1 rounded-lg">
             <span class="aspect-square h-6 text-green-500"><ThumbsUp /></span>
-            <p><span class="text-green-500">98% </span>Likes</p>
+            <p><span class="text-green-500">{Math.round(movieRating)}% </span>Likes</p>
             <span class="text-zinc-400">•</span>
-            <p>2023</p>
+            <p>{releaseYear}</p>
             <span class="text-zinc-400">•</span>
             <p class="bg-zinc-100 bg-opacity-20 border border-zinc-600 backdrop-blur-lg rounded-full px-5">16+</p>
             <span class="text-zinc-400">•</span>
             <p>Fantasy, Action, Adventure.</p>
           </div>
-          <p class="leading-relaxed text-zinc-200 px-2 py-2 rounded-lg">
-            Five years have passed since Hiccup and Toothless united the dragons and Vikings of Berk. Now, they spend their time charting unmapped territories.
+          <p class="leading-relaxed text-zinc-200 py-2 mb-2 rounded-lg">
+            {randomMovie.overview}
           </p>
           <div class="py-1">
-            <h3 class="font-semibold mb-4">STARRING:</h3>
+            <h3 class="font-semibold mb-2">STARRING</h3>
             <div class="flex gap-4">
               <Actor src="/howtotrainyourdragon_cast/hiccup.webp" />
               <Actor src="/howtotrainyourdragon_cast/valka.webp" />
@@ -54,21 +71,17 @@ import Actor from '../components/Actor.astro'
 </header>
 <style>
   .image {
-    background: url(/howtotrainyourdragon_bg.jpg) center / cover no-repeat;
+    background: center / cover no-repeat;
   }
   .shadow {
     background: linear-gradient(to right, black 0%, rgba(0, 0, 0, 0.8) 25%, transparent 75%);
   }
   .custom-hover::after {
-    position: absolute;
     content: '';
-    width: 100%;
-    height: 100%;
-    transition: 0.5s ease-out;
-    opacity: 0;
+    @apply w-full h-full absolute transition duration-500 opacity-0;
   }
   .custom-hover:hover::after {
-    opacity: 1;
+    @apply opacity-100;
   }
   .gradient-one::after {
     background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 69%);
