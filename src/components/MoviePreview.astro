@@ -2,38 +2,46 @@
 import Star from '../icons/Star.astro'
 import Play from '../icons/Play.astro'
 
-const { src, name, rating } = Astro.props
+const { src, name, rating, id } = Astro.props
+const IMG_SIZE = {
+  small: 'w300/',
+  medium: 'w780/',
+  large: 'w1280/',
+  og: 'original/',
+}
+const POSTER_URL = `https://image.tmdb.org/t/p/`
 ---
 
 <div>
-  <div class="h-56 aspect-video bg-zinc-800 select-none rounded-3xl overflow-hidden relative cursor-pointer mb-2 bg transition-all" style=`background-image: url(${src});`>
-    <div class="custom-hover w-full h-full grid place-items-center absolute">
-      <div class="h-16 aspect-square rounded-full p-4">
-        <Play />
-      </div>
-    </div>
+  <div class="h-56 aspect-video bg-zinc-900 select-none rounded-3xl overflow-hidden cursor-pointer mb-2 transition-all grid place-items-center group relative overlay skeleton">
+    <a id={id} href="#" class="h-16 aspect-square rounded-full p-4 absolute group-hover:opacity-100 opacity-0 backdrop-blur-md bg-zinc-950/40 transition" draggable="false"><Play /></a>
+    <img src={`${POSTER_URL}${IMG_SIZE.medium}${src}`} alt={name} class="pointer-events-none w-full object-cover group-hover:" draggable="false" loading="lazy" />
   </div>
   <div class="flex justify-between items-center">
     <p class="text-lg font-bold select-none truncate cursor-pointer hover:text-rose-100">{name}</p>
     <span class="flex h-4 items-center gap-2 select-none">{Math.round(rating * 10) / 10} <Star /></span>
   </div>
-
-  <style define:vars={{ image: src }}>
-    .custom-hover {
-      @apply transition w-full h-full absolute bg-zinc-950 bg-opacity-50 opacity-0;
-    }
-
-    .custom-hover:hover {
-      @apply opacity-100;
-    }
-
-    .bg {
-      background-position: center;
-      background-size: 100%;
-    }
-
-    .bg:hover {
-      background-size: 105%;
-    }
-  </style>
 </div>
+
+<style>
+  .overlay::before {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.69);
+    @apply transition opacity-0 h-full w-full absolute;
+  }
+  .overlay:hover::before {
+    opacity: 0.69;
+  }
+  /* .skeleton::after {
+    content: '';
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent 25%, rgb(27 27 30), transparent 75%);
+    animation: skeletonSweep 1.5s infinite ease-in-out;
+    @apply h-full w-full absolute;
+  }
+  @keyframes skeletonSweep {
+    100% {
+      transform: translateX(100%);
+    }
+  } */
+</style>

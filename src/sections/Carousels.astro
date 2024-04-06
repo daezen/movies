@@ -13,7 +13,7 @@ import Carousel from '../components/Carousel.astro'
 <script>
   import { qs, $on, $off } from '../lib/helpers'
   const $carousels = qs('[data-carousels]')
-  const speed = 1
+  const speed = 2
   let $carousel
   let pos = { l: 0, x: 0 }
 
@@ -39,5 +39,11 @@ import Carousel from '../components/Carousel.astro'
     $off(document, 'mouseup', onMouseUp)
   }
 
+  async function findTrailer(e) {
+    e.preventDefault()
+    console.log(e.target)
+  }
+
+  $on($carousels, 'click', findTrailer)
   $on($carousels, 'mousedown', onMouseDown)
 </script>
