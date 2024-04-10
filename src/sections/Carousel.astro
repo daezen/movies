@@ -1,6 +1,6 @@
 ---
-import MoviePreview from './MoviePreview.astro'
-import options from '../lib/api'
+import MoviePreview from '../components/MoviePreview.astro'
+import options from '../lib/apiKey'
 const { kind } = Astro.props
 const category = kind === 'popular' ? 'popular' : 'top_rated'
 const BASE_URL = `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`
@@ -9,7 +9,7 @@ const { results: movies } = await res.json()
 ---
 
 <div class="flex gap-6 w-screen overflow-auto pr-20 mb-10" data-carousel={kind}>
-  {movies.map(movie => <MoviePreview src={movie.backdrop_path} name={movie.title} rating={movie.vote_average} id={movie.id} />)}
+  {movies.map(movie => <MoviePreview backdrop={movie.backdrop_path} name={movie.title} rating={movie.vote_average} id={movie.id} />)}
 </div>
 
 <style>
