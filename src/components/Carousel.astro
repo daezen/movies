@@ -2,10 +2,9 @@
 import MoviePreview from './MoviePreview.astro'
 import options from '../lib/api'
 const { kind } = Astro.props
-const popular = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1'
-const toprated = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1'
-const url = kind === 'trending' ? popular : toprated
-const res = await fetch(url, options)
+const category = kind === 'popular' ? 'popular' : 'top_rated'
+const BASE_URL = `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`
+const res = await fetch(BASE_URL, options)
 const { results: movies } = await res.json()
 ---
 
