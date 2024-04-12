@@ -6,21 +6,21 @@ import Likes from '../components/Likes.astro'
 import Genres from '../components/Genres.astro'
 import Starring from '../components/Starring.astro'
 import AgeRating from '../components/AgeRating.astro'
-import { getRandomMovie } from '../lib/apiUtils'
+import { getBackdrop, getMovieDetails, getRandomMovie } from '../lib/apiUtils'
+import { getLogo } from '../lib/apiUtils'
 
-console.log('asd')
-
-// const { genres, videos, images, credits } = await getMovieDetails(movie.id)
-// const backdrop = getBackdrop(images, 'md')
-// const logo = getLogo(images, 'md')
+const movie = await getRandomMovie()
+const details = await getMovieDetails(movie.id)
+const backdrop = getBackdrop(details.images, 'og')
+const logo = getLogo(details.images, 'og')
 ---
 
 <header class="text-xl mb-16 relative">
-  <img src={''} loading="lazy" class="absolute h-full w-full blur-[256px] z-[-1] select-none" draggable="false" />
-  <div class="image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${''});`>
+  <img src={backdrop} loading="lazy" class="absolute h-full w-full blur-[256px] z-[-1] select-none" draggable="false" />
+  <div class="image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${backdrop});`>
     <div class="shadow">
       <section class="px-20 py-8 h-screen max-w-[950px] flex justify-center flex-col gap-5">
-        <img src={''} alt="Movie logo" class="aspect-auto max-h-96" />
+        <img src={logo} alt="Movie logo" class="aspect-auto max-h-96" />
         <div class="px-2 py-1 rounded-3xl">
           <div class="flex gap-3 items-center py-1 rounded-lg">
             <Likes rating={''} />

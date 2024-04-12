@@ -31,14 +31,14 @@ async function getMovieDetails(movieId) {
 }
 
 function getBackdrop(images, size) {
-  // const path = images.backdrops[0].file_path
-  // const backdrop = IMG_URL + BG_SIZE[size || 'md'] + path
+  const path = images.backdrops[0].file_path
+  const backdrop = IMG_URL + BG_SIZE[size || 'md'] + path
   return backdrop
 }
 
 function getLogo(images, size) {
-  // const path = images.logos[0].file_path
-  // const logo = IMG_URL + LOGO_SIZE[size || 'md'] + path
+  const path = images.logos[0].file_path
+  const logo = IMG_URL + LOGO_SIZE[size || 'md'] + path
   return logo
 }
 
