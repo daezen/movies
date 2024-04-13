@@ -6,13 +6,17 @@ import Likes from '../components/Likes.astro'
 import Genres from '../components/Genres.astro'
 import Starring from '../components/Starring.astro'
 import AgeRating from '../components/AgeRating.astro'
-import { getBackdrop, getMovieDetails, getRandomMovie } from '../lib/apiUtils'
+import { getBackdrop, getMovieDetails, getRandomMovie, getActors } from '../lib/apiUtils'
 import { getLogo } from '../lib/apiUtils'
 
 const movie = await getRandomMovie()
 const details = await getMovieDetails(movie.id)
-const backdrop = getBackdrop(details.images, 'og')
+const backdrop = getBackdrop(movie.backdrop_path, 'og')
 const logo = getLogo(details.images, 'og')
+const likes = (Math.round(movie.vote_average) / 10) * 100
+const year = new Date(movie.release_date).getFullYear()
+const overview = movie.overview
+const cast = getActors(details.credits)
 ---
 
 <header class="text-xl mb-16 relative">
@@ -23,16 +27,16 @@ const logo = getLogo(details.images, 'og')
         <img src={logo} alt="Movie logo" class="aspect-auto max-h-96" />
         <div class="px-2 py-1 rounded-3xl">
           <div class="flex gap-3 items-center py-1 rounded-lg">
-            <Likes rating={''} />
+            <Likes rating={likes} />
             <Dot />
-            <p>{''}</p>
+            <p>{year}</p>
             <Dot />
             <AgeRating age="16" />
             <Dot />
             <Genres genres={''} />
           </div>
-          <p class="leading-relaxed text-zinc-200 py-2 mb-2 rounded-lg">{''}</p>
-          <Starring cast={''} amount="7" />
+          <p class="leading-relaxed text-zinc-200 py-2 mb-2 rounded-lg">{overview}</p>
+          <Starring cast={cast} amount="7" />
         </div>
         <div class="flex gap-4 mt-6">
           <button

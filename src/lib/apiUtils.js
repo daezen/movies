@@ -30,9 +30,8 @@ async function getMovieDetails(movieId) {
   return { genres, videos, images, credits }
 }
 
-function getBackdrop(images, size) {
-  const path = images.backdrops[0].file_path
-  const backdrop = IMG_URL + BG_SIZE[size || 'md'] + path
+function getBackdrop(src, size) {
+  const backdrop = IMG_URL + BG_SIZE[size || 'md'] + src
   return backdrop
 }
 
@@ -42,7 +41,10 @@ function getLogo(images, size) {
   return logo
 }
 
-// const cast = credits.cast.filter(actor => actor.known_for_department === 'Acting').slice(0, 6)
+function getActors(credits) {
+  const actors = credits.cast.filter(actor => actor.known_for_department === 'Acting')
+  return actors
+}
 // const releaseYear = new Date(randomMovie.release_date).getFullYear()
 
-export { getRandomMovie, getMovieDetails, getBackdrop, getLogo }
+export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors }

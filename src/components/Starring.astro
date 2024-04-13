@@ -7,9 +7,9 @@ const { cast, amount } = Astro.props
   <h3 class="font-semibold mb-2">STARRING</h3>
   <div class="flex gap-4">
     {
-      // cast.slice(0, amount - 1).map(actor => {
-      //   if (actor.profile_path !== null) return <Actor src={`https://image.tmdb.org/t/p/w185/${actor.profile_path}`} />
-      // })
+      cast.slice(0, amount - 1).map(actor => {
+        if (actor.profile_path !== null) return <Actor src={`https://image.tmdb.org/t/p/w185/${actor.profile_path}`} alt={actor.name} />
+      })
     }
     <Actor src="/juanma.png" />
   </div>
