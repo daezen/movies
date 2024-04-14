@@ -4,9 +4,9 @@ const genresSliced = genres.slice(0, 3)
 ---
 
 {
-  // genresSliced.map((genre, index) => {
-  //   if (index === genresSliced.length - 1) {
-  //     return <p>{genre.name}</p>
-  //   } else return <p>{genre.name},</p>
-  // })
+  genresSliced.map((genre, index) => {
+    if (index === genresSliced.length - 1) {
+      return <p>{genre.name}</p>
+    } else return <p>{genre.name},</p>
+  })
 }

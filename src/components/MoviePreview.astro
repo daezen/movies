@@ -1,13 +1,13 @@
 ---
 import Star from '../icons/Star.astro'
 import Play from '../icons/Play.astro'
-const { backdrop, name, rating, id } = Astro.props
+const { src, name, rating, id } = Astro.props
 ---
 
 <div>
   <div class="h-80 aspect-video bg-zinc-900 select-none rounded-3xl overflow-hidden cursor-pointer mb-2 transition-all grid place-items-center group relative overlay before:absolute">
     <a id={id} class="h-16 aspect-square rounded-full p-4 absolute group-hover:opacity-100 opacity-0 backdrop-blur-md bg-zinc-950/40 transition z-10" draggable="false"><Play /></a>
-    <img src={backdrop} alt="Movie poster" class="pointer-events-none group-hover:scale-105 transition h-full object-cover aspect-video" draggable="false" loading="lazy" />
+    <img src={src} alt="Movie poster" class="pointer-events-none group-hover:scale-105 transition h-full object-cover aspect-video" draggable="false" loading="lazy" />
   </div>
   <div class="flex justify-between items-center">
     <p class="text-lg font-bold truncate cursor-pointer hover:text-rose-300">{name}</p>

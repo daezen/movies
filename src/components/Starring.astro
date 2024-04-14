@@ -3,8 +3,8 @@ import Actor from './Actor.astro'
 const { cast, amount } = Astro.props
 ---
 
-<div class="py-1">
-  <h3 class="font-semibold mb-2">STARRING</h3>
+<div class="py-1 mb-8">
+  <h3 class="font-semibold mb-6 text-xl">STARRING :</h3>
   <div class="flex gap-4">
     {
       cast.slice(0, amount - 1).map(actor => {

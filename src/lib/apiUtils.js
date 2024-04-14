@@ -18,7 +18,9 @@ const LOGO_SIZE = {
 }
 
 async function getRandomMovie() {
-  const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
+  // const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
+  const res = await fetch('https://api.themoviedb.org/3/movie/845783?language=en-US', options)
+  return await res.json()
   const { results: movies } = await res.json()
   const index = Math.floor(Math.random() * 19)
   return movies[index]
@@ -29,6 +31,8 @@ async function getMovieDetails(movieId) {
   const { genres, videos, images, credits } = await res.json()
   return { genres, videos, images, credits }
 }
+
+async function getPopularMovies() {}
 
 function getBackdrop(src, size) {
   const backdrop = IMG_URL + BG_SIZE[size || 'md'] + src
