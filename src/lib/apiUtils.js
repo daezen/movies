@@ -18,9 +18,9 @@ const LOGO_SIZE = {
 }
 
 async function getRandomMovie() {
-  // const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
-  const res = await fetch('https://api.themoviedb.org/3/movie/845783?language=en-US', options)
-  return await res.json()
+  // const res = await fetch('https://api.themoviedb.org/3/movie/845783?language=en-US', options)
+  // return await res.json()
+  const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
   const { results: movies } = await res.json()
   const index = Math.floor(Math.random() * 19)
   return movies[index]
