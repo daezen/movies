@@ -6,14 +6,13 @@ import User from '../icons/User.astro'
 <nav>
   <ul class="grid grid-cols-3 grid-rows-1 place-items-center mb-4 text-4xl font-semibold py-10 px-5">
     <li class="justify-self-start"><a href="/">Movies</a></li>
-    <li data-search>
-      <form class="flex h-16 bg-zinc-950/80 rounded-full w-[420px] p-1">
-        <input type="text" class="bg-transparent focus:outline-none px-6 text-sm flex-1" />
-        <button class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full">
+    <li data-search class="bg-zinc-950/80 rounded-full w-[420px] relative">
+      <form class="flex h-16 p-1">
+        <input type="text" placeholder="Search" class="bg-transparent focus:outline-none px-6 text-sm flex-1" />
+        <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full">
           <Search />
         </button>
       </form>
-      <!-- <a href="/search" class="h-14 p-4 block aspect-square rounded-full bg-zinc-950/50"><Search /></a> -->
     </li>
     <li class="h-full aspect-square justify-self-end"><button class="h-full aspect-square"><User /></button></li>
   </ul>

@@ -18,7 +18,7 @@ const LOGO_SIZE = {
 }
 
 async function getRandomMovie() {
-  // const res = await fetch('https://api.themoviedb.org/3/movie/845783?language=en-US', options)
+  // const res = await fetch('https://api.themoviedb.org/3/movie/1239251?language=en-US', options)
   // return await res.json()
   const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
   const { results: movies } = await res.json()
@@ -31,8 +31,6 @@ async function getMovieDetails(movieId) {
   const { genres, videos, images, credits } = await res.json()
   return { genres, videos, images, credits }
 }
-
-async function getPopularMovies() {}
 
 function getBackdrop(src, size) {
   const backdrop = IMG_URL + BG_SIZE[size || 'md'] + src
@@ -49,6 +47,5 @@ function getActors(credits) {
   const actors = credits.cast.filter(actor => actor.known_for_department === 'Acting')
   return actors
 }
-// const releaseYear = new Date(randomMovie.release_date).getFullYear()
 
 export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors }
