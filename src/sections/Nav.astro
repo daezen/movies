@@ -1,33 +1,14 @@
 ---
-import Search from '../icons/Search.astro'
 import User from '../icons/User.astro'
+import SearchBox from '../components/SearchBox.astro'
 ---
 
 <nav>
   <ul class="grid grid-cols-3 grid-rows-1 place-items-center mb-4 text-4xl font-semibold py-10 px-5">
     <li class="justify-self-start"><a href="/">Movies</a></li>
     <li data-search class="bg-zinc-950/80 rounded-full w-[420px] relative">
-      <form class="flex h-16 p-1">
-        <input type="text" placeholder="Search" class="bg-transparent focus:outline-none px-6 text-sm flex-1" />
-        <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full">
-          <Search />
-        </button>
-      </form>
+      <SearchBox />
     </li>
     <li class="h-full aspect-square justify-self-end"><button class="h-full aspect-square"><User /></button></li>
   </ul>
 </nav>
-<!-- <input class="bg-zinc-950 rounded-full py-4 px-6 h-full border" type="text" placeholder="Search" /> -->
-
-<script>
-  import { qs, $on, $off } from '../lib/helpers.js'
-  const $search = qs('[data-search]')
-  const inputHTML = `
-    <input class="bg-zinc-950 rounded-full px-8" type="text" />
-  `
-  // function onLoad() {
-  // }
-
-  // $search.insertAdjacentHTML('afterbegin', inputHTML)
-  // document.addEventListener('DOMContentLoaded', onLoad)
-</script>
