@@ -7,54 +7,75 @@ import Search from '../icons/Search.astro'
   <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full">
     <Search />
   </button>
-  <div data-results class="z-20 absolute w-[600px] min-h-[600px] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 shadow-2xl"></div>
+  <div data-results style="display: none;" class="z-50 absolute w-[800px] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 shadow-2xl"></div>
+</form>
 
-  <script>
-    import { getBackdrop } from '../lib/apiUtils'
-    import { qs, $on } from '../lib/helpers.js'
-    import options from '../lib/apiKey.js'
-    const $input = qs('input')
+<script>
+  import { getBackdrop } from '../lib/apiUtils'
+  import { qs, $on } from '../lib/helpers.js'
+  import options from '../lib/apiKey.js'
+  const $input = qs('input')
 
-    async function querySearch() {
-      if ($input.value === '') return
-      const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${$input.value}&include_adult=false&language=en-US&page=1`, options)
-      const { results } = await res.json()
-      updateResults(results)
+  const resultsContainer = {
+    $: qs('[data-results]'),
+    hide() {
+      this.$.style.display = 'none'
+    },
+    show() {
+      this.$.removeAttribute('style')
+    },
+  }
+
+  async function querySearch(query) {
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`, options)
+    const { results } = await res.json()
+    updateResults(results)
+  }
+
+  async function onInput() {
+    if ($input.value === '') {
+      return resultsContainer.hide()
     }
+    await querySearch($input.value)
+  }
 
-    function debounce(func, timeout = 400) {
-      let timer
-      return (...args) => {
-        clearTimeout(timer)
-        timer = setTimeout(() => {
-          func.apply(this, args)
-        }, timeout)
-      }
-    }
-
-    function updateResults(results) {
-      const $results = qs('[data-results]')
-      results = results.filter(result => result.backdrop_path && result.hasOwnProperty('release_date') && result.release_date !== '')
-      $results.innerHTML = ''
-      results.forEach(result => {
-        const backdrop = getBackdrop(result.backdrop_path)
-        const year = new Date(result.release_date).getFullYear()
-        const resultHTML = `
+  function updateResults(movies) {
+    const $results = qs('[data-results]')
+    $results.innerHTML = null
+    movies = movies?.filter(result => {
+      return result.backdrop_path && result.hasOwnProperty('release_date') && result.release_date !== ''
+    })
+    movies.forEach(result => {
+      const backdrop = getBackdrop(result.backdrop_path, 'sm')
+      const year = new Date(result.release_date).getFullYear()
+      const resultHTML = `
               <div class="text-base h-36 flex gap-4 mb-4">
-                <div class="h-full aspect-[16/9] rounded-lg overflow-hidden">
-                  <img src="${backdrop}" alt="Movie poster" />
+                <div class="h-full aspect-video rounded-lg overflow-hidden flex-initial">
+                  <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full" />
                 </div>
-                <div>
+                <div class="w-3/5">
                   <p class="truncate">${result.original_title}</p>
                   <p class="font-light text-zinc-300">${year}</p>
                 </div>
               </div>`
-        $results.insertAdjacentHTML('beforeend', resultHTML)
-        console.log(result)
-      })
-    }
+      $results.insertAdjacentHTML('beforeend', resultHTML)
+    })
+    resultsContainer.show()
+  }
 
-    const processChange = debounce(() => querySearch())
-    $on($input, 'input', processChange)
-  </script>
-</form>
+  function debounce(func, timeout = 400) {
+    let timer
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, timeout)
+    }
+  }
+
+  const processChange = debounce(() => onInput())
+  $on($input, 'input', processChange)
+
+  // $input.value = 'Dune'
+  // processChange()
+</script>
