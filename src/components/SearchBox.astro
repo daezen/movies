@@ -7,42 +7,58 @@ import Search from '../icons/Search.astro'
   <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full">
     <Search />
   </button>
-  <div data-results style="display: none;" class="z-50 absolute w-[800px] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 shadow-2xl flex gap-4 flex-col"></div>
 </form>
+<div data-results style="display: none;" class="z-50 absolute w-[800px] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 flex gap-4 flex-col"></div>
 
 <script>
   import { getBackdrop } from '../lib/apiUtils'
   import { qs, $on } from '../lib/helpers.js'
   import options from '../lib/apiKey.js'
   const $input = qs('input')
+  const isEmpty = () => $input.value === ''
 
-  const resultsContainer = {
+  const results = {
     $: qs('[data-results]'),
+    isOpen: false,
     hide() {
       this.$.style.display = 'none'
+      this.isOpen = false
     },
     show() {
       this.$.removeAttribute('style')
+      this.isOpen = true
     },
   }
 
   function onInput() {
-    if ($input.value === '') return resultsContainer.hide()
+    if (isEmpty()) return results.hide()
     debouncedQuery($input.value)
   }
 
   function onKeydown(e) {
-    console.log(e.target)
+    if (e.keyCode === 27) {
+      $input.value = ''
+      results.hide()
+    }
+  }
+
+  function onFocus() {
+    if (isEmpty()) return
+    results.show()
   }
 
   function updateResults(movies) {
     const $results = qs('[data-results]')
     $results.innerHTML = null
+    if (movies == '') {
+      const string = resultHTML(null, null, null)
+      $results.insertAdjacentHTML('beforeend', string)
+    }
     cleanResults(movies).forEach(result => {
-      const string = resultHTML(result.backdrop_path, result.original_title, result.release_date)
+      const string = resultHTML(result.backdrop_path, result.title, result.release_date)
       $results.insertAdjacentHTML('beforeend', string)
     })
-    resultsContainer.show()
+    results.show()
   }
 
   function cleanResults(movies) {
@@ -52,9 +68,16 @@ import Search from '../icons/Search.astro'
   }
 
   function resultHTML(backdrop, title, year) {
-    backdrop = getBackdrop(backdrop, 'sm')
-    year = new Date(year).getFullYear()
-    const html = `
+    let html = ``
+    if (backdrop === null && title === null && year === null) {
+      html = `
+              <div class="text-xl flex gap-4 h-36 w-full items-center justify-center">
+                  <p class="truncate">no results</p>
+              </div>`
+    } else {
+      backdrop = getBackdrop(backdrop, 'sm')
+      year = new Date(year).getFullYear()
+      html = `
               <div class="text-base h-36 flex gap-4">
                 <div class="h-full aspect-video rounded-lg overflow-hidden flex-initial">
                   <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full" />
@@ -64,6 +87,7 @@ import Search from '../icons/Search.astro'
                   <p class="font-light text-zinc-300">${year}</p>
                 </div>
               </div>`
+    }
     return html
   }
 
@@ -83,7 +107,16 @@ import Search from '../icons/Search.astro'
     }
   }
 
-  const debouncedQuery = debounce(querySearch, 400)
-  $on($input, 'input', onKeydown)
+  const debouncedQuery = debounce(querySearch, 300)
+  $on(document, 'mouseup', ({ clientX: x, clientY: y }) => {
+    const { left: l, right: r, top: t, bottom: b } = results.$.getBoundingClientRect()
+    if (document.activeElement === $input) return
+    if (x < l || x > r || y < t || y > b) {
+      results.hide()
+    }
+  })
+
+  $on($input, 'focus', onFocus)
+  $on($input, 'keydown', onKeydown)
   $on($input, 'input', onInput)
 </script>
