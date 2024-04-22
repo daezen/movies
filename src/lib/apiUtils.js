@@ -25,9 +25,9 @@ async function getRandomMovie() {
 }
 
 async function getMovieDetails(movieId) {
-  const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits&language=en`, options)
-  const { genres, videos, images, credits } = await res.json()
-  return { genres, videos, images, credits }
+  const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates&language=en`, options)
+  const { genres, videos, images, credits, release_dates } = await res.json()
+  return { genres, videos, images, credits, release_dates }
 }
 
 function getBackdrop(src, size) {
@@ -46,4 +46,9 @@ function getActors(credits) {
   return actors
 }
 
-export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors }
+function getCertification(certs) {
+  certs = certs.filter(cert => cert.iso_3166_1 === 'US')[0].release_dates.filter(cert => cert.certification != '')[0]
+  return certs.certification
+}
+
+export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors, getCertification }

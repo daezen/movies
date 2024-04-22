@@ -6,7 +6,7 @@ import Likes from '../components/Likes.astro'
 import Genres from '../components/Genres.astro'
 import Starring from '../components/Starring.astro'
 import AgeRating from '../components/AgeRating.astro'
-import { getBackdrop, getMovieDetails, getRandomMovie, getActors } from '../lib/apiUtils'
+import { getBackdrop, getMovieDetails, getRandomMovie, getActors, getCertification } from '../lib/apiUtils'
 import { getLogo } from '../lib/apiUtils'
 
 const movie = await getRandomMovie()
@@ -18,6 +18,7 @@ const year = new Date(movie.release_date).getFullYear()
 const overview = movie.overview
 const cast = getActors(details.credits)
 const genres = details.genres
+const cert = getCertification(details.release_dates.results)
 ---
 
 <header class="text-lg mb-16 relative">
@@ -25,14 +26,14 @@ const genres = details.genres
   <div class="image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${backdrop});`>
     <div class="shadow">
       <section class="px-20 mx-2 py-8 h-screen max-w-[860px] custom-grid">
-        <img src={logo} alt="Movie logo" class="aspect-auto max-h-64 place-self-end justify-self-center mb-16" />
+        <img src={logo} alt="Movie logo" class="aspect-auto max-h-64 place-self-end justify-self-center mb-16 transition-all hover:brightness-50 cursor-pointer" />
         <div class="place-self-center flex flex-col">
           <div class="flex gap-4 items-center">
             <Likes rating={likes} />
             <Dot />
             <p>{year}</p>
             <Dot />
-            <AgeRating age="16" />
+            <AgeRating age={cert} />
             <Dot />
             <Genres genres={genres} />
           </div>

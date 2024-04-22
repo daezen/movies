@@ -4,7 +4,7 @@ import Search from '../icons/Search.astro'
 
 <form class="flex h-16 p-1 relative">
   <input type="text" placeholder="Search" class="bg-transparent focus:outline-none px-6 text-sm flex-1" />
-  <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full">
+  <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full cursor-default">
     <Search />
   </button>
 </form>
@@ -50,12 +50,13 @@ import Search from '../icons/Search.astro'
   function updateResults(movies) {
     const $results = qs('[data-results]')
     $results.innerHTML = null
+    movies = cleanResults(movies)
     if (movies == '') {
       const string = resultHTML(null, null, null)
       $results.insertAdjacentHTML('beforeend', string)
     }
-    cleanResults(movies).forEach(result => {
-      const string = resultHTML(result.backdrop_path, result.title, result.release_date)
+    movies.forEach(movie => {
+      const string = resultHTML(movie.backdrop_path, movie.title, movie.release_date)
       $results.insertAdjacentHTML('beforeend', string)
     })
     results.show()
@@ -72,7 +73,7 @@ import Search from '../icons/Search.astro'
     if (backdrop === null && title === null && year === null) {
       html = `
               <div class="text-xl flex gap-4 h-36 w-full items-center justify-center">
-                  <p class="truncate">no results</p>
+                  <p class="truncate">No results</p>
               </div>`
     } else {
       backdrop = getBackdrop(backdrop, 'sm')
