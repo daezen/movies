@@ -1,23 +1,22 @@
 ---
+import { getBackdrop, getMovieDetails, getRandomMovie, getActors, getCertification, getLogo } from '../lib/apiUtils'
+import AgeRating from '../components/AgeRating.astro'
+import Starring from '../components/Starring.astro'
+import Genres from '../components/Genres.astro'
+import Likes from '../components/Likes.astro'
+import Dot from '../components/Dot.astro'
 import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
-import Dot from '../components/Dot.astro'
-import Likes from '../components/Likes.astro'
-import Genres from '../components/Genres.astro'
-import Starring from '../components/Starring.astro'
-import AgeRating from '../components/AgeRating.astro'
-import { getBackdrop, getMovieDetails, getRandomMovie, getActors, getCertification } from '../lib/apiUtils'
-import { getLogo } from '../lib/apiUtils'
 
 const movie = await getRandomMovie()
 const details = await getMovieDetails(movie.id)
-const backdrop = getBackdrop(movie.backdrop_path, 'og')
-const logo = getLogo(details.images, 'og')
-const likes = (Math.round(movie.vote_average) / 10) * 100
-const year = new Date(movie.release_date).getFullYear()
+const genres = details.genres
 const overview = movie.overview
 const cast = getActors(details.credits)
-const genres = details.genres
+const logo = getLogo(details.images, 'og')
+const backdrop = getBackdrop(movie.backdrop_path, 'og')
+const year = new Date(movie.release_date).getFullYear()
+const likes = (Math.round(movie.vote_average) / 10) * 100
 const cert = getCertification(details.release_dates.results)
 ---
 
@@ -49,7 +48,7 @@ const cert = getCertification(details.release_dates.results)
               ><Play />Play Trailer</button
             >
             <button
-              class="relative overflow-hidden custom-hover gradient-two flex items-center justify-center gap-4 text-2xl w-[300px] h-[76px] py-5 bg-zinc-100 bg-opacity-15 rounded-full border-2 border-zinc-500 backdrop-blur-md"
+              class="relative overflow-hidden custom-hover gradient-two flex items-center justify-center gap-4 text-2xl w-[300px] h-[76px] py-5 bg-zinc-100/15 rounded-full border-2 border-zinc-500/15 backdrop-blur-md"
               ><Plus />My Watchlist</button
             >
           </div>

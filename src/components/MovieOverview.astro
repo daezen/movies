@@ -1,12 +1,59 @@
 ---
 import Close from '../icons/Close.astro'
+import Play from '../icons/Play.astro'
+import Plus from '../icons/Plus.astro'
+import AgeRating from './AgeRating.astro'
+import Dot from './Dot.astro'
+import Likes from './Likes.astro'
 ---
 
 <div data-overview class="fixed flex justify-center items-end w-screen h-screen bg-zinc-950/80 z-[99]">
-  <div class="h-[97.5vh] w-1/2 bg-zinc-900 rounded-t-3xl">
-    <div class="relative flex">
-      <img src="" alt="Empty image" class="bg-rose-800 w-full aspect-video absolute" />
-      <div class="size-8 w-full h-8 border"><Close />sadffdsabor</div>
+  <article class="h-[98.5vh] w-[916px] bg-zinc-900 rounded-t-3xl overflow-hidden">
+    <div class="relative">
+      <section class="flex flex-col aspect-video w-full bg-center bg-cover">
+        <img src="placeholder.png" alt="" class="absolute aspect-video mask-image" />
+        <div class="flex justify-end size-8 w-full h-[72px] p-4 z-[99]">
+          <button class="rounded-full bg-zinc-950/75 backdrop-blur-xl p-1"><Close /></button>
+        </div>
+        <div class="flex-1 flex items-end">
+          <div class="py-16 px-12 mx-1 flex gap-2">
+            <button class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-[165px] h-[45px] py-1 rounded-full border-2 border-rose-500"
+              ><Play />Trailer</button
+            >
+            <button
+              class="relative overflow-hidden custom-hover gradient-one border-zinc-100/25 bg-zinc-100/10 flex items-center justify-center gap-4 text-2xl size-11 py-1 rounded-full border-2 border-rose-500 backdrop-blur-xl"
+              ><Plus /></button
+            >
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
+    <section class="px-12 flex">
+      <div>
+        <div class="flex-1 py-5 flex gap-2">
+          <Likes rating="89" />
+          <Dot />
+          <p>1986</p>
+          <Dot />
+          <AgeRating rating="R" />
+          <Dot />
+          <p>1 hour</p>
+        </div>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae repellendus est earum quaerat nostrum molestias cum perspiciatis ad iure officiis minima quam amet totam soluta fugiat
+          adipisci unde autem illo beatae dicta, placeat culpa, ab ducimus inventore? Nihil et distinctio veritatis doloremque nobis reprehenderit aut perferendis fugiat, rem molestiae quisquam.
+        </p>
+      </div>
+      <div class="text-sm py-2 flex flex-col gap-4">
+        <p><span class="text-zinc-500">Cast: </span>Matthew Broderick, Alan Ruck, Mia Sara, <a href="#" class="italic">more</a></p>
+        <p><span class="text-zinc-500">Genres: </span>Teen Movies, Classic Movies, Comedies</p>
+      </div>
+    </section>
+  </article>
 </div>
+
+<style>
+  .mask-image {
+    mask-image: linear-gradient(to top, transparent, black 50%);
+  }
+</style>
