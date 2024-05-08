@@ -8,7 +8,7 @@ import Likes from './Likes.astro'
 ---
 
 <div data-overview class="fixed flex justify-center items-end w-screen h-screen bg-zinc-950/80 z-[99]">
-  <article class="h-[98.5vh] w-[916px] bg-zinc-900 rounded-t-3xl overflow-y-auto">
+  <article class="h-[98.5vh] w-[916px] bg-zinc-900 rounded-t-3xl overflow-hidden">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
         <img src="placeholder.png" alt="" class="absolute aspect-video mask-image" />
@@ -47,10 +47,20 @@ import Likes from './Likes.astro'
       </div>
     </section>
     <div class="px-12 py-14 text-2xl font-bold">
-      <p>More Like This</p>
-      <div>
-        <img src="
-        placeholder.png" alt="" />
+      <p class="mb-4">More Like This</p>
+      <div class="flex justify-between">
+        <div>
+          <img src="
+          placeholder.png" alt="placeholder" class="aspect-video h-36 rounded-md" />
+        </div>
+        <div>
+          <img src="
+          placeholder.png" alt="placeholder" class="aspect-video h-36 rounded-md" />
+        </div>
+        <div>
+          <img src="
+          placeholder.png" alt="placeholder" class="aspect-video h-36 rounded-md" />
+        </div>
       </div>
     </div>
   </article>
