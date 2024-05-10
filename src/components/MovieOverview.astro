@@ -7,8 +7,9 @@ import Dot from './Dot.astro'
 import Likes from './Likes.astro'
 ---
 
-<div data-overview class="fixed flex justify-center items-end w-screen h-screen bg-zinc-950/80 z-[99]">
-  <article class="h-[98.5vh] w-[916px] bg-zinc-900 rounded-t-3xl overflow-hidden">
+<div class="fixed z-[98] bg-black/80 w-full h-full backdrop-blur-md"></div>
+<div data-overview class="absolute flex justify-center items-end w-screen pt-4 z-[99]">
+  <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
         <img src="placeholder.png" alt="" class="absolute aspect-video mask-image" />
@@ -39,7 +40,10 @@ import Likes from './Likes.astro'
           <Dot />
           <p>1 hour</p>
         </div>
-        <p class="max-w-[780px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid excepturi at nam temporibus sed necessitatibus?</p>
+        <p class="max-w-[780px]">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi maxime fugit expedita distinctio eveniet id? Incidunt consequuntur deserunt modi commodi perferendis quo corrupti non ex
+          molestias quam, laboriosam est enim aut adipisci temporibus obcaecati exercitationem asperiores maiores libero ad illo.
+        </p>
       </div>
       <div class="text-sm py-2 flex flex-col gap-4">
         <p><span class="text-zinc-500">Cast: </span>Matthew Broderick, Alan Ruck, Mia Sara, <a href="#" class="italic">more</a></p>
@@ -71,3 +75,5 @@ import Likes from './Likes.astro'
     mask-image: linear-gradient(to top, transparent, black 50%);
   }
 </style>
+
+<script></script>
