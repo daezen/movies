@@ -1,4 +1,4 @@
-import { toggleOverview } from '../lib/helpers.js'
+import { toggleOverview } from './lib.js'
 
 async function locationHandler() {
   const location = window.location.pathname
