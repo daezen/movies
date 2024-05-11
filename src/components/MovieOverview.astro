@@ -7,14 +7,14 @@ import Dot from './Dot.astro'
 import Likes from './Likes.astro'
 ---
 
-<div class="fixed z-[98] bg-black/80 w-full h-full backdrop-blur-md"></div>
-<div data-overview class="absolute flex justify-center items-end w-screen pt-4 z-[99]">
+<div data-shadow class="fixed z-[98] bg-black/80 w-full h-full backdrop-blur-md hidden"></div>
+<div data-overview class="absolute justify-center items-end w-screen pt-4 z-[99] hidden">
   <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
         <img src="placeholder.png" alt="" class="absolute aspect-video mask-image" />
         <div class="flex justify-end size-8 w-full h-[72px] p-4 z-[99]">
-          <button class="rounded-full bg-zinc-950/75 backdrop-blur-xl p-1"><Close /></button>
+          <button data-close class="rounded-full bg-zinc-950/75 backdrop-blur-xl p-1"><Close /></button>
         </div>
         <div class="flex-1 flex items-end">
           <div class="py-16 px-12 mx-1 flex gap-2">
@@ -76,4 +76,13 @@ import Likes from './Likes.astro'
   }
 </style>
 
-<script></script>
+<script>
+  import { qs, $on } from '../lib/helpers.js'
+  import { locationHandler } from '../lib/locationHandler'
+
+  const $close = qs('[data-close]')
+  $on($close, 'click', async () => {
+    history.pushState({}, '', '/')
+    await locationHandler()
+  })
+</script>
