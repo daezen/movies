@@ -7,7 +7,7 @@ import Dot from './Dot.astro'
 import Likes from './Likes.astro'
 ---
 
-<div data-overview class="fixed h-screen w-screen pt-4 z-[99] overflow-auto bg-black/80 hidden overscroll-contain">
+<div data-overview class="fixed h-screen w-screen py-4 z-[99] overflow-auto bg-black/80 hidden overscroll-contain">
   <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden mx-auto">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
@@ -76,12 +76,8 @@ import Likes from './Likes.astro'
 </style>
 
 <script>
-  import { qs, $on } from '../lib/lib'
-  import { locationHandler } from '../lib/locationHandler'
+  import { qs, $on, toggleOverview } from '../lib/lib'
 
   const $close = qs('[data-close]')
-  $on($close, 'click', async () => {
-    history.pushState({}, '', '/')
-    await locationHandler()
-  })
+  $on($close, 'click', () => toggleOverview(false))
 </script>
