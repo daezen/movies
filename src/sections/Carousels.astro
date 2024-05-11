@@ -12,11 +12,11 @@ import Carousel from './Carousel.astro'
 
 <script>
   import { qs, $on, $off } from '../lib/helpers.js'
+  import { locationHandler } from '../lib/locationHandler'
   import options from '../lib/apiKey.js'
   const $carousels = qs('[data-carousels]')
-  const speed = 2
-  let $carousel
   let pos = { l: 0, x: 0 }
+  let $carousel
 
   function onMouseDown({ target, pageX: x }) {
     $carousel = target.closest('[data-carousel]')
@@ -31,6 +31,7 @@ import Carousel from './Carousel.astro'
 
   function onMouseMove({ pageX }) {
     const x = pageX - $carousel.offsetLeft
+    const speed = 2
     const dx = (x - pos.x) * speed
     $carousel.scrollLeft = pos.l - dx
   }
@@ -40,12 +41,16 @@ import Carousel from './Carousel.astro'
     $off(document, 'mouseup', onMouseUp)
   }
 
+  async function handleMovie(e) {
+    if (e.target.matches('[data-play]')) return await findTrailer(e)
+    if (e.target.matches('[data-link]')) return await route(e)
+  }
+
   async function findTrailer(e) {
-    if (e.target.tagName !== 'A') return
     e.preventDefault()
     const res = await fetch(`https://api.themoviedb.org/3/movie/${e.target.id}/videos`, options)
     const { results: trailers } = await res.json()
-    const trailer = trailers.filter(trailer => trailer.type == 'Trailer')
+    const trailer = trailers?.filter(trailer => trailer.type == 'Trailer')
     try {
       window.open(`https://youtu.be/${trailer[0].key}`, '_blank')
     } catch (error) {
@@ -53,6 +58,13 @@ import Carousel from './Carousel.astro'
     }
   }
 
-  $on($carousels, 'click', findTrailer)
+  async function route(e) {
+    e.preventDefault()
+    history.pushState({}, '', e.target.href)
+    await locationHandler()
+  }
+
   $on($carousels, 'mousedown', onMouseDown)
+  $on($carousels, 'click', handleMovie)
+  locationHandler()
 </script>
