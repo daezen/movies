@@ -11,8 +11,7 @@ import Carousel from './Carousel.astro'
 </div>
 
 <script>
-  import { qs, $on, $off } from '../lib/lib'
-  import { locationHandler } from '../lib/locationHandler'
+  import { qs, $on, $off, toggleOverview } from '../lib/lib'
   import options from '../lib/apiKey.js'
   const $carousels = qs('[data-carousels]')
   let pos = { l: 0, x: 0 }
@@ -43,7 +42,10 @@ import Carousel from './Carousel.astro'
 
   async function handleMovie(e) {
     if (e.target.matches('[data-play]')) return await findTrailer(e)
-    if (e.target.matches('[data-link]')) return await route(e)
+    if (e.target.matches('[data-link]')) {
+      e.preventDefault()
+      return await toggleOverview(true)
+    }
   }
 
   async function findTrailer(e) {
@@ -58,13 +60,6 @@ import Carousel from './Carousel.astro'
     }
   }
 
-  async function route(e) {
-    e.preventDefault()
-    history.pushState({}, '', e.target.href)
-    await locationHandler()
-  }
-
   $on($carousels, 'mousedown', onMouseDown)
   $on($carousels, 'click', handleMovie)
-  locationHandler()
 </script>
