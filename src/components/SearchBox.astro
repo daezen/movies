@@ -12,7 +12,7 @@ import Search from '../icons/Search.astro'
 
 <script>
   import { getBackdrop } from '../lib/apiUtils'
-  import { qs, $on } from '../lib/helpers.js'
+  import { qs, $on } from '../lib/lib'
   import options from '../lib/apiKey.js'
   const $input = qs('input')
   const isEmpty = () => $input.value === ''
