@@ -7,9 +7,8 @@ import Dot from './Dot.astro'
 import Likes from './Likes.astro'
 ---
 
-<div data-shadow class="fixed z-[98] bg-black/80 w-full h-full backdrop-blur-md hidden"></div>
-<div data-overview class="absolute justify-center items-end w-screen pt-4 z-[99] hidden">
-  <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden">
+<div data-overview class="fixed h-screen w-screen pt-4 z-[99] overflow-auto bg-black/80 hidden overscroll-contain">
+  <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden mx-auto">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
         <img src="placeholder.png" alt="" class="absolute aspect-video mask-image" />
@@ -77,7 +76,7 @@ import Likes from './Likes.astro'
 </style>
 
 <script>
-  import { qs, $on } from '../lib/helpers.js'
+  import { qs, $on } from '../lib/lib'
   import { locationHandler } from '../lib/locationHandler'
 
   const $close = qs('[data-close]')
