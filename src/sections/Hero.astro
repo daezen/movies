@@ -17,7 +17,7 @@ const logo = getLogo(details.images, 'og')
 const backdrop = getBackdrop(movie.backdrop_path, 'og')
 const year = new Date(movie.release_date).getFullYear()
 const likes = (Math.round(movie.vote_average) / 10) * 100
-const cert = getCertification(details.release_dates.results)
+const cert = await getCertification(details.release_dates.results)
 ---
 
 <header class="text-lg mb-16 relative">
