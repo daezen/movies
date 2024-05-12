@@ -14,17 +14,4 @@ const $off = (target, type, callback, useCapture) => {
   target.removeEventListener(type, callback, !!useCapture)
 }
 
-const overview = qs('[data-overview]')
-const toggleOverview = toShow => {
-  if (toShow) {
-    overview.style.display = 'block'
-  }
-  if (!toShow) {
-    overview.removeAttribute('style')
-  }
-}
-
-$on(overview, 'scroll', e => {
-  e.preventDefault()
-})
-export { qs, qsa, $on, $off, toggleOverview }
+export { qs, qsa, $on, $off }
