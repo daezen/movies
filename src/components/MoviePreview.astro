@@ -10,8 +10,8 @@ const { src, name, rating, id } = Astro.props
     <img src={src} alt="Movie poster" class="pointer-events-none group-hover:scale-105 transition h-full object-cover aspect-video" draggable="false" loading="lazy" />
   </div>
   <div class="flex justify-between items-center">
-    <a data-link href=`movie/@/${id}` class="text-lg font-bold truncate cursor-pointer hover:text-rose-300">{name}</a>
-    <span class="flex h-4 items-center gap-2 select-none">{Math.round(rating * 10) / 10} <Star /></span>
+    <a data-link draggable="false" href=`movie/@/${id}` class="text-lg font-bold truncate cursor-pointer hover:text-rose-300">{name}</a>
+    <span class="flex items-center gap-2 font-semibold select-none h-8 py-2 px-2">{Math.round(rating * 10) / 10} <Star /></span>
   </div>
 </div>
 
