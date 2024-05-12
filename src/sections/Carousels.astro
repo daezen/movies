@@ -11,7 +11,8 @@ import Carousel from './Carousel.astro'
 </div>
 
 <script>
-  import { qs, $on, $off, toggleOverview } from '../lib/lib'
+  import { qs, $on, $off } from '../lib/lib'
+  import { Overview } from '../lib/overview'
   import options from '../lib/apiKey.js'
   const $carousels = qs('[data-carousels]')
   let pos = { l: 0, x: 0 }
@@ -44,7 +45,7 @@ import Carousel from './Carousel.astro'
     if (e.target.matches('[data-play]')) return await findTrailer(e)
     if (e.target.matches('[data-link]')) {
       e.preventDefault()
-      return await toggleOverview(true)
+      return Overview.toggle(true)
     }
   }
 
