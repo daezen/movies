@@ -36,9 +36,10 @@ function getBackdrop(src, size) {
 }
 
 function getLogo(images, size) {
-  const path = images.logos[0].file_path
-  const logo = IMG_URL + LOGO_SIZE[size || 'md'] + path
-  return logo
+  const image = images.logos[0]
+  if (image === undefined) return 'placeholder.png'
+  const path = IMG_URL + LOGO_SIZE[size || 'md'] + image.file_path
+  return path
 }
 
 function getActors(credits) {
@@ -47,8 +48,12 @@ function getActors(credits) {
 }
 
 function getCertification(certs) {
-  certs = certs.filter(cert => cert.iso_3166_1 === 'US')[0].release_dates.filter(cert => cert.certification != '')[0]
-  return certs.certification
+  if (!certs || certs.length === 0) return 'None'
+  const usCert = certs.find(cert => cert.iso_3166_1 === 'US')
+  if (!usCert || !usCert.release_dates || usCert.release_dates.length === 0) return 'None'
+  const cert = usCert.release_dates.find(cert => cert.certification !== '')
+  if (!cert) return 'None'
+  return cert.certification
 }
 
 export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors, getCertification }
