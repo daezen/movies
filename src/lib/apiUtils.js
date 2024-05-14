@@ -31,6 +31,7 @@ async function getMovieDetails(movieId) {
 }
 
 function getBackdrop(src, size) {
+  if (src === null) return 'placeholder.png'
   const backdrop = IMG_URL + BG_SIZE[size || 'md'] + src
   return backdrop
 }
