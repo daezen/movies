@@ -3,7 +3,6 @@ import Close from '../icons/Close.astro'
 import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
 import ThumbsUp from '../icons/ThumbsUp.astro'
-import AgeRating from './AgeRating.astro'
 import Dot from './Dot.astro'
 ---
 
@@ -31,7 +30,7 @@ import Dot from './Dot.astro'
       </section>
     </div>
     <section class="px-12 flex">
-      <div>
+      <div class="w-[560px]">
         <div class="flex-1 py-5 flex gap-2">
           <p class="flex items-center gap-2">
             <span class="size-6 text-green-500"><ThumbsUp /></span><span data-overview-likes class="text-green-500">%</span>Likes
@@ -43,15 +42,9 @@ import Dot from './Dot.astro'
           <Dot />
           <p data-overview-duration>1 hour</p>
         </div>
-        <p data-overview-description class="max-w-[780px] mr-8">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore, hic dolorum aperiam cumque enim corporis. Soluta enim officia fuga praesentium illo eos incidunt odio quidem minima ad
-          placeat consectetur ipsam quae eum accusamus quasi, at ipsa? Similique incidunt recusandae dolore, excepturi corrupti ea perferendis, culpa aliquid unde nesciunt velit totam impedit ullam
-          et. Doloribus perferendis nam labore atque excepturi voluptas iste! Architecto consequuntur optio consequatur adipisci exercitationem nostrum neque reiciendis, reprehenderit excepturi animi
-          dolore aliquam. Earum magnam nesciunt a dolores provident totam voluptatum maxime eius vero. Hic, nemo esse illo, iure consequatur accusantium ut rem exercitationem maxime perferendis
-          similique adipisci!
-        </p>
+        <p data-overview-description>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos beatae incidunt voluptatum modi vel fugiat ad explicabo, adipisci ipsum reiciendis.</p>
       </div>
-      <div class="text-sm py-2 flex flex-col gap-4">
+      <div class="text-sm py-2 flex flex-col gap-4 flex-1">
         <p data-overview-cast><span class="text-zinc-500">Cast: </span>Matthew Broderick, Alan Ruck, Mia Sara</p>
         <p data-overview-categories><span class="text-zinc-500">Genres: </span>Teen Movies, Classic Movies, Comedies</p>
       </div>
