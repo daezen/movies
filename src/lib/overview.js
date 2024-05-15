@@ -1,3 +1,5 @@
+import { getCertification, getActors } from './apiUtils'
+import options from './apiKey'
 import { qs } from './lib'
 
 class MovieOverview {
@@ -20,13 +22,35 @@ class MovieOverview {
       this.$.style.display = 'block'
     }
     if (!toShow) {
+      this.setImg('', '')
       this.$.removeAttribute('style')
     }
   }
 
+  async update(movieId) {
+    const imgUrl = src => `https://image.tmdb.org/t/p/original/${src}`
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Crecommendations&language=en`, options)
+    const data = await res.json()
+    const trailerData = data.videos.results.find(trailer => trailer.type == 'Trailer')
+    const trailer = `https://youtu.be/${trailerData.key}`
+    this.setImg(imgUrl(data.images.backdrops[0].file_path), 'Movie poster')
+    this.setTrailer(trailer)
+    this.setLikes((Math.round(data.vote_average) / 10) * 100)
+    this.setYear(new Date(data.release_date).getFullYear())
+    this.setRating(getCertification(data.release_dates.results))
+    this.setDescription(data.overview)
+    this.setCast(
+      getActors(data.credits)
+        .map(actor => actor.name)
+        .slice(0, 3)
+    )
+    this.setCategories(data.genres.map(genre => genre.name))
+    this.setMorelike(data.recommendations.results)
+  }
+
   setImg(src, alt) {
-    img.src = src
-    img.alt = alt
+    this.$img.src = src
+    this.$img.alt = alt
   }
 
   setTrailer(url) {
@@ -53,7 +77,7 @@ class MovieOverview {
     this.$cast.innerHTML = ''
     cast.forEach((actor, index) => {
       if (index === 0) return (this.$cast.innerHTML += `<span class="text-zinc-500">Cast: </span>${actor}, `)
-      if (index === cast.length - 1) return (this.$cast.innerHTML += `${actor}`)
+      if (index === cast.length - 1) return (this.$cast.innerHTML += `${actor} and <i>more</i>`)
       this.$cast.innerHTML += `${actor}, `
     })
   }
@@ -66,9 +90,21 @@ class MovieOverview {
       this.$categories.innerHTML += `${category}, `
     })
   }
+
+  setMorelike(movies) {
+    movies = movies.filter(movie => movie.backdrop_path !== null).slice(0, 3)
+    this.$morelike.innerHTML = ''
+    movies.forEach(movie => {
+      this.$morelike.innerHTML += `
+      <div>
+        <img src="
+        https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="aspect-video h-36 rounded-md mb-2" />
+        <p class="text-base truncate max-w-[250px]">${movie.title}</p>
+      </div>`
+    })
+  }
 }
 
 const Overview = new MovieOverview()
-Overview.toggle(true)
 
 export { Overview }
