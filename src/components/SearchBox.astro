@@ -14,8 +14,10 @@ import Search from '../icons/Search.astro'
   import { getBackdrop } from '../lib/apiUtils'
   import { qs, $on } from '../lib/lib'
   import options from '../lib/apiKey.js'
+  import { Overview } from '../lib/overview'
   const $input = qs('input')
   const isEmpty = () => $input.value === ''
+  const $results = qs('[data-results]')
 
   const results = {
     $: qs('[data-results]'),
@@ -48,7 +50,6 @@ import Search from '../icons/Search.astro'
   }
 
   function updateResults(movies) {
-    const $results = qs('[data-results]')
     $results.innerHTML = null
     movies = cleanResults(movies)
     if (movies == '') {
@@ -56,7 +57,7 @@ import Search from '../icons/Search.astro'
       $results.insertAdjacentHTML('beforeend', string)
     }
     movies.forEach(movie => {
-      const string = resultHTML(movie.backdrop_path, movie.title, movie.release_date)
+      const string = resultHTML(movie.backdrop_path, movie.title, movie.release_date, movie.id)
       $results.insertAdjacentHTML('beforeend', string)
     })
     results.show()
@@ -68,7 +69,7 @@ import Search from '../icons/Search.astro'
     })
   }
 
-  function resultHTML(backdrop, title, year) {
+  function resultHTML(backdrop, title, year, movieId) {
     let html = ``
     if (backdrop === null && title === null && year === null) {
       html = `
@@ -79,7 +80,7 @@ import Search from '../icons/Search.astro'
       backdrop = getBackdrop(backdrop, 'sm')
       year = new Date(year).getFullYear()
       html = `
-              <div class="text-base h-36 flex gap-4">
+              <a id="${movieId}" class="text-base h-36 flex gap-4 cursor-pointer">
                 <div class="h-full aspect-video rounded-lg overflow-hidden flex-initial">
                   <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full" />
                 </div>
@@ -87,7 +88,7 @@ import Search from '../icons/Search.astro'
                   <p class="truncate">${title}</p>
                   <p class="font-light text-zinc-300">${year}</p>
                 </div>
-              </div>`
+              </a>`
     }
     return html
   }
@@ -109,6 +110,7 @@ import Search from '../icons/Search.astro'
   }
 
   const debouncedQuery = debounce(querySearch, 300)
+
   $on(document, 'mouseup', ({ clientX: x, clientY: y }) => {
     const { left: l, right: r, top: t, bottom: b } = results.$.getBoundingClientRect()
     if (document.activeElement === $input) return
@@ -116,7 +118,10 @@ import Search from '../icons/Search.astro'
       results.hide()
     }
   })
-
+  $on($results, 'click', e => {
+    Overview.update(e.target.closest('a').id)
+    Overview.toggle(true)
+  })
   $on($input, 'focus', onFocus)
   $on($input, 'keydown', onKeydown)
   $on($input, 'input', onInput)

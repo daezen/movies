@@ -45,8 +45,8 @@ import Carousel from './Carousel.astro'
     if (e.target.matches('[data-play]')) return await findTrailer(e)
     if (e.target.matches('[data-link]')) {
       e.preventDefault()
+      Overview.toggle(true)
       Overview.update(e.target.id)
-      return Overview.toggle(true)
     }
   }
 

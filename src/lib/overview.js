@@ -19,33 +19,39 @@ class MovieOverview {
 
   toggle(toShow) {
     if (toShow) {
-      this.$.style.display = 'block'
+      this.$.classList.add('overview--show')
     }
     if (!toShow) {
       this.setImg('', '')
-      this.$.removeAttribute('style')
+      this.$.classList.remove('overview--show')
     }
   }
 
   async update(movieId) {
-    const imgUrl = src => `https://image.tmdb.org/t/p/original/${src}`
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Crecommendations&language=en`, options)
-    const data = await res.json()
-    const trailerData = data.videos.results.find(trailer => trailer.type == 'Trailer')
-    const trailer = `https://youtu.be/${trailerData.key}`
-    this.setImg(imgUrl(data.images.backdrops[0].file_path), 'Movie poster')
-    this.setTrailer(trailer)
-    this.setLikes((Math.round(data.vote_average) / 10) * 100)
-    this.setYear(new Date(data.release_date).getFullYear())
-    this.setRating(getCertification(data.release_dates.results))
-    this.setDescription(data.overview)
-    this.setCast(
-      getActors(data.credits)
-        .map(actor => actor.name)
-        .slice(0, 3)
-    )
-    this.setCategories(data.genres.map(genre => genre.name))
-    this.setMorelike(data.recommendations.results)
+    setTimeout(async () => {
+      const imgUrl = src => `https://image.tmdb.org/t/p/original/${src}`
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Crecommendations&language=en`, options)
+      const data = await res.json()
+      const trailerData = data.videos.results.find(trailer => trailer.type == 'Trailer')
+      if (trailerData !== undefined) {
+        const trailer = `https://youtu.be/${trailerData.key}`
+        this.setTrailer(trailer)
+      } else this.setTrailer(false)
+      if (data.images.backdrops[0] != undefined) {
+        this.setImg(imgUrl(data.images.backdrops[0].file_path), 'Movie poster')
+      } else this.setImg(imgUrl(data.backdrop_path), 'Movie Poster')
+      this.setLikes((Math.round(data.vote_average) / 10) * 100)
+      this.setYear(new Date(data.release_date).getFullYear())
+      this.setRating(getCertification(data.release_dates.results))
+      this.setDescription(data.overview)
+      this.setCast(
+        getActors(data.credits)
+          .map(actor => actor.name)
+          .slice(0, 3)
+      )
+      this.setCategories(data.genres.map(genre => genre.name))
+      this.setMorelike(data.recommendations.results)
+    }, 350)
   }
 
   setImg(src, alt) {
