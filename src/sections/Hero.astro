@@ -1,5 +1,5 @@
 ---
-import { getBackdrop, getMovieDetails, getRandomMovie, getActors, getCertification, getLogo } from '../lib/apiUtils'
+import { getBackdrop, getMovieDetails, getRandomMovie, getActors, getCertification, getLogo, getTrailer } from '../lib/apiUtils'
 import AgeRating from '../components/AgeRating.astro'
 import Starring from '../components/Starring.astro'
 import Genres from '../components/Genres.astro'
@@ -18,10 +18,11 @@ const backdrop = getBackdrop(movie.backdrop_path, 'og')
 const year = new Date(movie.release_date).getFullYear()
 const likes = (Math.round(movie.vote_average) / 10) * 100
 const cert = await getCertification(details.release_dates.results)
+const trailer = getTrailer(details.videos.results)
 ---
 
 <header class="text-lg mb-16 relative">
-  <img src={backdrop} loading="lazy" class="absolute h-[150%] w-full blur-[384px] z-[-1] select-none" draggable="false" />
+  <img src={backdrop} loading="lazy" class="absolute h-[150%] w-full blur-[384px] opacity-50 z-[-1] select-none" draggable="false" />
   <div class="image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${backdrop});`>
     <div class="shadow">
       <section class="px-20 mx-2 py-8 h-screen max-w-[860px] custom-grid">
@@ -41,11 +42,12 @@ const cert = await getCertification(details.release_dates.results)
         <div class="flex flex-col gap-4 place-self-start">
           <Starring cast={cast} amount="7" />
           <div class="flex gap-5">
-            <button
+            <a
+              href={trailer}
+              target="_blank"
               data-trailer
-              id={movie.id}
-              class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-[266px] h-[76px] py-6 rounded-full border-2 border-rose-500"
-              ><Play />Play Trailer</button
+              class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-[266px] h-[76px] py-6 rounded-full border-2 border-rose-500 cursor-pointer"
+              ><Play />Play Trailer</a
             >
             <button
               class="relative overflow-hidden custom-hover gradient-two flex items-center justify-center gap-4 text-2xl w-[300px] h-[76px] py-5 bg-zinc-100/15 rounded-full border-2 border-zinc-500/15 backdrop-blur-md"
@@ -90,21 +92,3 @@ const cert = await getCertification(details.release_dates.results)
     background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 69%);
   }
 </style>
-
-<script>
-  import { qs, $on } from '../lib/lib'
-  import options from '../lib/apiKey.js'
-
-  async function findTrailer(e) {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${e.target.id}/videos`, options)
-    const { results: trailers } = await res.json()
-    const trailer = trailers.filter(trailer => trailer.type == 'Trailer')
-    try {
-      window.open(`https://youtu.be/${trailer[0].key}`, '_blank')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  $on(qs('[data-trailer]'), 'click', findTrailer)
-</script>

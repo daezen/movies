@@ -51,7 +51,7 @@ class MovieOverview {
       )
       this.setCategories(data.genres.map(genre => genre.name))
       this.setMorelike(data.recommendations.results)
-    }, 350)
+    }, 400)
   }
 
   setImg(src, alt) {
@@ -102,9 +102,9 @@ class MovieOverview {
     this.$morelike.innerHTML = ''
     movies.forEach(movie => {
       this.$morelike.innerHTML += `
-      <div>
+      <div class="aspect-video h-36 rounded-md overflow-hidden">
         <img src="
-        https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="aspect-video h-36 rounded-md mb-2" />
+        https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="mb-2" />
         <p class="text-base truncate max-w-[250px]">${movie.title}</p>
       </div>`
     })
@@ -112,5 +112,6 @@ class MovieOverview {
 }
 
 const Overview = new MovieOverview()
+Overview.toggle(true)
 
 export { Overview }

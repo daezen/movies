@@ -6,15 +6,15 @@ import ThumbsUp from '../icons/ThumbsUp.astro'
 import Dot from './Dot.astro'
 ---
 
-<div data-overview class="fixed h-screen w-screen py-4 z-[99] overflow-auto bg-black/80 backdrop-blur-md overscroll-contain translate-y-full transition-transform duration-75">
+<div data-overview class="fixed h-screen w-screen py-4 z-[99] overflow-auto bg-black/80 backdrop-blur-md overscroll-contain translate-y-full transition-transform">
   <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden mx-auto">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
         <img data-overview-img src="" alt="" class="absolute aspect-video mask-image bg-zinc-900" />
-        <div class="flex justify-end size-8 w-full h-[72px] p-4 z-[99]">
+        <div class="flex justify-end size-8 w-full h-[72px] p-4 z-[99] bg-zinc-800">
           <button data-overview-close class="rounded-full bg-zinc-950/75 backdrop-blur-xl p-1"><Close /></button>
         </div>
-        <div class="flex-1 flex items-end">
+        <div class="flex-1 flex items-end bg-zinc-800">
           <div class="py-16 px-12 mx-1 flex gap-2">
             <a
               target="_blank"
@@ -52,7 +52,20 @@ import Dot from './Dot.astro'
     </section>
     <div class="px-12 py-14 text-2xl font-bold">
       <p class="mb-4">More Like This</p>
-      <div data-overview-morelike class="flex justify-between"></div>
+      <div data-overview-morelike class="flex justify-between">
+        <div class="aspect-video h-36 rounded-md overflow-hidden bg-zinc-800">
+          <img src="" alt="" class="mb-2" />
+          <p class="text-base truncate max-w-[250px]"></p>
+        </div>
+        <div class="aspect-video h-36 rounded-md overflow-hidden bg-zinc-800">
+          <img src="" alt="" class="mb-2" />
+          <p class="text-base truncate max-w-[250px]"></p>
+        </div>
+        <div class="aspect-video h-36 rounded-md overflow-hidden bg-zinc-800">
+          <img src="" alt="" class="mb-2" />
+          <p class="text-base truncate max-w-[250px]"></p>
+        </div>
+      </div>
     </div>
   </article>
 </div>

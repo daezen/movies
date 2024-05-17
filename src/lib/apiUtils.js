@@ -57,4 +57,10 @@ function getCertification(certs) {
   return cert.certification
 }
 
-export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors, getCertification }
+function getTrailer(videos) {
+  const trailerData = videos.find(trailer => trailer.type == 'Trailer')
+  if (trailerData == undefined) return
+  return `https://youtu.be/${trailerData.key}`
+}
+
+export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors, getCertification, getTrailer }
