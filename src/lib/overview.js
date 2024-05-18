@@ -51,6 +51,7 @@ class MovieOverview {
       )
       this.setCategories(data.genres.map(genre => genre.name))
       this.setMorelike(data.recommendations.results)
+      this.setDuration(data.runtime)
     }, 400)
   }
 
@@ -73,6 +74,16 @@ class MovieOverview {
 
   setRating(rating) {
     this.$rating.textContent = rating
+  }
+
+  setDuration(duration) {
+    const hours = Math.floor(duration / 60)
+    const remainingMinutes = duration % 60
+    duration = {
+      hours,
+      remainingMinutes,
+    }
+    this.$duration.textContent = `${duration.hours}h ${duration.remainingMinutes}m`
   }
 
   setDescription(description) {
