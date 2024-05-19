@@ -53,7 +53,7 @@ import Search from '../icons/Search.astro'
     $results.innerHTML = null
     movies = cleanResults(movies)
     if (movies == '') {
-      const string = resultHTML(null, null, null)
+      const string = resultHTML(null, null, null, null)
       $results.insertAdjacentHTML('beforeend', string)
     }
     movies.forEach(movie => {
@@ -80,13 +80,13 @@ import Search from '../icons/Search.astro'
       backdrop = getBackdrop(backdrop, 'sm')
       year = new Date(year).getFullYear()
       html = `
-              <a id="${movieId}" class="text-base h-36 flex gap-4 cursor-pointer">
+              <a id="${movieId}" class="text-base h-36 flex gap-4 cursor-pointer group">
                 <div class="h-full aspect-video rounded-lg overflow-hidden flex-initial">
-                  <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full" />
+                  <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full saturate-50 group-hover:saturate-100 transition" />
                 </div>
                 <div class="w-3/5">
-                  <p class="truncate">${title}</p>
-                  <p class="font-light text-zinc-300">${year}</p>
+                  <p class="truncate group-hover:text-rose-300 transition">${title}</p>
+                  <p class="font-light text-zinc-300 group-hover:text-zinc-500 transition">${year}</p>
                 </div>
               </a>`
     }
