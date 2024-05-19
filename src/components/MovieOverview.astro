@@ -44,9 +44,9 @@ import Dot from './Dot.astro'
           <p data-overview-duration>1h 30m</p>
         </div>
         <div data-overview-description class="mr-4 rounded-md">
-          <div class="description--skeleton"></div>
-          <div class="description--skeleton"></div>
-          <div class="description--skeleton"></div>
+          <div class="skeleton description--skeleton"></div>
+          <div class="skeleton description--skeleton"></div>
+          <div class="skeleton description--skeleton"></div>
         </div>
       </div>
       <div class="text-sm py-2 flex flex-col gap-4 flex-1">
@@ -57,16 +57,16 @@ import Dot from './Dot.astro'
     <div class="px-12 py-14 text-2xl font-bold">
       <p class="mb-4">More Like This</p>
       <div data-overview-morelike class="flex justify-between">
-        <div class="aspect-video h-36 rounded-md overflow-hidden bg-zinc-800">
-          <img src="" alt="" class="mb-2" />
+        <div data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
+          <img src="" alt="" class="mb-2 h-full pointer-events-none" />
           <p class="text-base truncate max-w-[250px]"></p>
         </div>
-        <div class="aspect-video h-36 rounded-md overflow-hidden bg-zinc-800">
-          <img src="" alt="" class="mb-2" />
+        <div data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
+          <img src="" alt="" class="mb-2 h-full pointer-events-none" />
           <p class="text-base truncate max-w-[250px]"></p>
         </div>
-        <div class="aspect-video h-36 rounded-md overflow-hidden bg-zinc-800">
-          <img src="" alt="" class="mb-2" />
+        <div data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
+          <img src="" alt="" class="mb-2 h-full pointer-events-none" />
           <p class="text-base truncate max-w-[250px]"></p>
         </div>
       </div>
@@ -83,9 +83,12 @@ import Dot from './Dot.astro'
     transform: translateY(0);
   }
 
+  .skeleton {
+    animation: skeleton-pulse 1s alternate infinite;
+  }
+
   .description--skeleton {
     @apply bg-zinc-800 text-zinc-800 rounded-sm w-full h-4 mb-2;
-    animation: skeleton-pulse 1s alternate infinite;
   }
 
   .description--skeleton:last-child {
@@ -106,5 +109,10 @@ import Dot from './Dot.astro'
   import { Overview } from '../lib/overview'
   import { $on, qs } from '../lib/lib'
 
+  $on(qs('[data-overview-morelike]'), 'click', e => {
+    if (e.target.matches('[data-overview-morelike-preview]')) {
+      Overview.update(e.target.id)
+    }
+  })
   $on(qs('[data-overview-close]'), 'click', () => Overview.toggle(false))
 </script>
