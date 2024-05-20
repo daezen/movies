@@ -22,8 +22,8 @@ async function getRandomMovie() {
   const { results: movies } = await res.json()
   const index = Math.floor(Math.random() * 19)
   const details = await getMovieDetails(movies[index].id)
-  if (getLogo(details.images) === 'None' || getBackdrop(movies[index].id.backdrop_path) === 'None' || getCertification(details.release_dates.results) === 'None') {
-    await getRandomMovie()
+  if (getLogo(details.images) === 'None' || getBackdrop(movies[index].backdrop_path) === 'None' || getCertification(details.release_dates.results) === 'None') {
+    return await getRandomMovie()
   }
   return movies[index]
 }
