@@ -21,6 +21,10 @@ async function getRandomMovie() {
   const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
   const { results: movies } = await res.json()
   const index = Math.floor(Math.random() * 19)
+  const details = await getMovieDetails(movies[index].id)
+  if (getLogo(details.images) === 'None' || getBackdrop(movies[index].id.backdrop_path) === 'None' || getCertification(details.release_dates.results) === 'None') {
+    await getRandomMovie()
+  }
   return movies[index]
 }
 
@@ -31,14 +35,14 @@ async function getMovieDetails(movieId) {
 }
 
 function getBackdrop(src, size) {
-  if (src === null) return 'placeholder.png'
+  if (src === null) return 'None'
   const backdrop = IMG_URL + BG_SIZE[size || 'md'] + src
   return backdrop
 }
 
 function getLogo(images, size) {
   const image = images.logos[0]
-  if (image === undefined) return 'placeholder.png'
+  if (image === undefined) return 'None'
   const path = IMG_URL + LOGO_SIZE[size || 'md'] + image.file_path
   return path
 }
