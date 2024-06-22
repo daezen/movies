@@ -9,6 +9,18 @@ import SearchBox from '../components/SearchBox.astro'
     <li data-search class="bg-zinc-950/80 rounded-full w-[420px] relative">
       <SearchBox />
     </li>
-    <li class="h-full aspect-square justify-self-end"><button class="h-full aspect-square p-4"><User /></button></li>
+    <li class="relative h-full aspect-square justify-self-end">
+      <button data-user class="h-full aspect-square p-4"><User /></button>
+      <div class="absolute">Menu</div>
+    </li>
   </ul>
 </nav>
+
+<script>
+  import { qs, $on } from '../lib/lib.js'
+  const $user = qs('[data-user]')
+
+  function handleUser() {}
+
+  $on($user, 'click', handleUser)
+</script>
