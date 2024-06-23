@@ -22,7 +22,7 @@ class MovieOverview {
       this.$.classList.add('overview--show')
     }
     if (!toShow) {
-      this.empty()
+      // this.empty()
       this.$.classList.remove('overview--show')
     }
   }
@@ -30,14 +30,9 @@ class MovieOverview {
   async update(movieId) {
     setTimeout(async () => {
       const imgUrl = src => `https://image.tmdb.org/t/p/original/${src}`
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Crecommendations&language=en`,
-        options,
-      )
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Crecommendations&language=en`, options)
       const data = await res.json()
-      const trailerData = data.videos.results.find(
-        trailer => trailer.type == 'Trailer',
-      )
+      const trailerData = data.videos.results.find(trailer => trailer.type == 'Trailer')
       if (trailerData !== undefined) {
         const trailer = `https://youtu.be/${trailerData.key}`
         this.setTrailer(trailer)
@@ -52,7 +47,7 @@ class MovieOverview {
       this.setCast(
         getActors(data.credits)
           .map(actor => actor.name)
-          .slice(0, 3),
+          .slice(0, 3)
       )
       this.setCategories(data.genres.map(genre => genre.name))
       this.setMorelike(data.recommendations.results)
@@ -98,10 +93,8 @@ class MovieOverview {
   setCast(cast) {
     this.$cast.innerHTML = ''
     cast.forEach((actor, index) => {
-      if (index === 0)
-        return (this.$cast.innerHTML += `<span class="text-zinc-500">Cast: </span>${actor}, `)
-      if (index === cast.length - 1)
-        return (this.$cast.innerHTML += `${actor} and <i>more</i>`)
+      if (index === 0) return (this.$cast.innerHTML += `<span class="text-zinc-500">Cast: </span>${actor}, `)
+      if (index === cast.length - 1) return (this.$cast.innerHTML += `${actor} and <i>more</i>`)
       this.$cast.innerHTML += `${actor}, `
     })
   }
@@ -109,10 +102,8 @@ class MovieOverview {
   setCategories(categories) {
     this.$categories.innerHTML = ''
     categories.forEach((category, index) => {
-      if (index === 0)
-        return (this.$categories.innerHTML += `<span class="text-zinc-500">Genres: </span>${category}, `)
-      if (index === categories.length - 1)
-        return (this.$categories.innerHTML += `${category}`)
+      if (index === 0) return (this.$categories.innerHTML += `<span class="text-zinc-500">Genres: </span>${category}, `)
+      if (index === categories.length - 1) return (this.$categories.innerHTML += `${category}`)
       this.$categories.innerHTML += `${category}, `
     })
   }
@@ -122,7 +113,7 @@ class MovieOverview {
     this.$morelike.innerHTML = ''
     movies.forEach(movie => {
       this.$morelike.innerHTML += `
-      <div id="${movie.id}" data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md  bg-zinc-800 cursor-pointer group">
+      <div id="${movie.id}" data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer group">
         <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="mb-2 h-full pointer-events-none" />
         <p class="text-base truncate max-w-[250px] group-hover:text-rose-300 transition">${movie.title}</p>
       </div>`
