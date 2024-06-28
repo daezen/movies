@@ -1,0 +1,37 @@
+---
+import Close from '../icons/Close.astro'
+---
+
+<div data-watchlist-container class="fixed overscroll-contain z-[100] flex items-end justify-center w-screen h-screen bg-black/80 backdrop-blur-md hidden">
+  <div class="bg-zinc-950 rounded-t-2xl h-[95vh]">
+    <header class="w-full grid grid-cols-3 text-center text-2xl p-6 font-semibold">
+      <p class="title">My watchlist</p>
+      <button data-watchlist-close class="h-10 close justify-self-end"><Close /></button>
+    </header>
+    <div data-watchlist class="grid grid-cols-3 gap-4 p-4"></div>
+  </div>
+</div>
+
+<style>
+  header {
+    grid-template-areas: '. title close';
+  }
+
+  .title {
+    grid-area: title;
+  }
+
+  .close {
+    grid-area: close;
+  }
+</style>
+
+<script>
+  import { watchlist } from '../lib/watchlist.js'
+  import { $on } from '../lib/lib.js'
+
+  $on(document, 'click', ({ target: $ }) => {
+    if ($.matches('[data-mywatchlist]')) watchlist.open()
+    if ($.matches('[data-watchlist-close]')) watchlist.close()
+  })
+</script>
