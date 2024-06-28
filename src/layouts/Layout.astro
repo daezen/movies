@@ -1,6 +1,7 @@
 ---
 import '@fontsource/poppins'
 import MovieOverview from '../components/MovieOverview.astro'
+import Watchlist from '../components/Watchlist.astro'
 const { title } = Astro.props
 ---
 
@@ -14,6 +15,7 @@ const { title } = Astro.props
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   </head>
   <body class="bg-zinc-950 text-white overflow-x-hidden overflow-auto tracking-wide">
+    <Watchlist />
     <MovieOverview />
     <div class="px-8">
       <slot />
