@@ -113,8 +113,10 @@ class MovieOverview {
     this.$morelike.innerHTML = ''
     movies.forEach(movie => {
       this.$morelike.innerHTML += `
-      <div id="${movie.id}" data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer group">
-        <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="mb-2 h-full pointer-events-none" />
+      <div id="${movie.id}" data-overview-morelike-preview class="cursor-pointer group">
+        <div class="h-36 aspect-video bg-zinc-800 rounded-md overflow-hidden mb-2 group-hover">
+          <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="transition-all saturate-50 group-hover:saturate-100 mb-2 h-full pointer-events-none" />
+        </div>
         <p class="text-base truncate max-w-[250px] group-hover:text-rose-300 transition">${movie.title}</p>
       </div>`
     })
