@@ -1,6 +1,7 @@
 ---
 import User from '../icons/User.astro'
 import SearchBox from '../components/SearchBox.astro'
+import Plus from '../icons/Plus.astro'
 ---
 
 <nav>
@@ -11,16 +12,26 @@ import SearchBox from '../components/SearchBox.astro'
     </li>
     <li class="relative h-full aspect-square justify-self-end">
       <button data-user class="h-full aspect-square p-4"><User /></button>
-      <div class="absolute">Menu</div>
+      <div data-user-menu class="absolute text-base bg-zinc-950 py-2 px-2 z-50 -translate-x-2/3 rounded-xl w-44 hidden">
+        <ul data-mywatchlist class="flex items-center h-6 gap-2 w-full justify-between pr-2 cursor-pointer"><Plus /><li class="whitespace-nowrap pointer-events-none">My watchlist</li></ul>
+      </div>
     </li>
   </ul>
 </nav>
 
 <script>
   import { qs, $on } from '../lib/lib.js'
+  const $userMenu = qs('[data-user-menu]')
   const $user = qs('[data-user]')
 
-  function handleUser() {}
+  function handleUser() {
+    $userMenu.classList.toggle('hidden')
+  }
+
+  $on(document, 'mouseup', ({ target: $ }) => {
+    if ($ === $user) return
+    $userMenu.classList.add('hidden')
+  })
 
   $on($user, 'click', handleUser)
 </script>
