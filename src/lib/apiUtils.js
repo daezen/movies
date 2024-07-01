@@ -34,6 +34,12 @@ async function getMovieDetails(movieId) {
   return { genres, videos, images, credits, release_dates }
 }
 
+async function getMovie(movieId) {
+  const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`, options)
+  const movie = res.json()
+  return movie
+}
+
 function getBackdrop(src, size) {
   if (src === null) return 'None'
   const backdrop = IMG_URL + BG_SIZE[size || 'md'] + src
@@ -67,4 +73,4 @@ function getTrailer(videos) {
   return `https://youtu.be/${trailerData.key}`
 }
 
-export { getRandomMovie, getMovieDetails, getBackdrop, getLogo, getActors, getCertification, getTrailer }
+export { getRandomMovie, getMovieDetails, getMovie, getBackdrop, getLogo, getActors, getCertification, getTrailer }
