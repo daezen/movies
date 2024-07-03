@@ -23,6 +23,7 @@ import Dot from './Dot.astro'
               ><Play />Trailer</a
             >
             <button
+              data-add-to-watchlist-overview
               class="relative overflow-hidden custom-hover gradient-one border-zinc-100/25 bg-zinc-100/10 flex items-center justify-center gap-4 text-2xl size-11 py-1 rounded-full border-2 border-rose-500 backdrop-blur-xl"
               ><Plus /></button
             >
@@ -111,7 +112,7 @@ import Dot from './Dot.astro'
 
   $on(qs('[data-overview-morelike]'), 'click', e => {
     if (e.target.matches('[data-overview-morelike-preview]')) {
-      Overview.update(e.target.id)
+      Overview.update(+e.target.id)
     }
   })
   $on(qs('[data-overview-close]'), 'click', () => Overview.toggle(false))
