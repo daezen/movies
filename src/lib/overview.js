@@ -15,14 +15,17 @@ class MovieOverview {
     this.$cast = qs('[data-overview-cast]')
     this.$categories = qs('[data-overview-categories]')
     this.$morelike = qs('[data-overview-morelike]')
+    this.$watchlist = qs('[data-add-to-watchlist-overview]')
+    this.lastMovieId
   }
 
-  toggle(toShow) {
+  toggle(toShow, movieId) {
     if (toShow) {
+      if (this.lastMovieId !== movieId) this.empty()
       this.$.classList.add('overview--show')
+      this.update(movieId)
     }
     if (!toShow) {
-      // this.empty()
       this.$.classList.remove('overview--show')
     }
   }
@@ -30,7 +33,7 @@ class MovieOverview {
   async update(movieId) {
     setTimeout(async () => {
       const imgUrl = src => `https://image.tmdb.org/t/p/original/${src}`
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Crecommendations&language=en`, options)
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Cimages%2Ccredits%2Crelease_dates%2Csimilar&language=en`, options)
       const data = await res.json()
       const trailerData = data.videos.results.find(trailer => trailer.type == 'Trailer')
       if (trailerData !== undefined) {
@@ -50,9 +53,16 @@ class MovieOverview {
           .slice(0, 3)
       )
       this.setCategories(data.genres.map(genre => genre.name))
-      this.setMorelike(data.recommendations.results)
+      this.setMorelike(data.similar.results)
       this.setDuration(data.runtime)
+      this.setId(data.id)
+      this.lastMovieId = movieId
     }, 400)
+  }
+
+  setId(movieId) {
+    this.$watchlist.id = movieId
+    this.$watchlist.classList.remove('disabled')
   }
 
   setImg(src, alt) {
@@ -114,7 +124,7 @@ class MovieOverview {
     movies.forEach(movie => {
       this.$morelike.innerHTML += `
       <div id="${movie.id}" data-overview-morelike-preview class="cursor-pointer group">
-        <div class="h-36 aspect-video bg-zinc-800 rounded-md overflow-hidden mb-2 group-hover">
+        <div class="h-36 pointer-events-none aspect-video bg-zinc-800 rounded-md overflow-hidden mb-2 group-hover">
           <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="transition-all saturate-50 group-hover:saturate-100 mb-2 h-full pointer-events-none" />
         </div>
         <p class="text-base truncate max-w-[250px] group-hover:text-rose-300 transition">${movie.title}</p>
@@ -143,6 +153,7 @@ class MovieOverview {
           <p class="text-base truncate max-w-[250px]"></p>
         </div>`
     }
+    this.$watchlist.classList.add('disabled')
   }
 }
 
