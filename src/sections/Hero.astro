@@ -21,14 +21,14 @@ const cert = await getCertification(details.release_dates.results)
 const trailer = getTrailer(details.videos.results)
 ---
 
-<header class="text-lg mb-16 relative">
+<header class="responsive-font mb-16 relative w-full flex justify-center">
   <img src={backdrop} loading="lazy" class="absolute h-[150%] w-full blur-[384px] opacity-50 z-[-1] select-none" draggable="false" />
-  <div class="image rounded-3xl overflow-hidden shadow-2xl" style=`background-image: url(${backdrop});`>
-    <div class="shadow">
-      <section class="px-20 mx-2 py-8 h-screen max-w-[860px] custom-grid">
-        <img src={logo} alt="Movie logo" class="aspect-auto max-h-64 place-self-end justify-self-center mb-16 transition-all" />
-        <div class="place-self-center flex flex-col">
-          <div class="flex gap-4 items-center">
+  <div class="image rounded-3xl overflow-hidden shadow-2xl aspect-video w-[95vw] max-h-[95vh] max-md:h-[69vh]" style=`background-image: url(${backdrop});`>
+    <div class="shadow h-full w-full flex items-center max-md:items-end">
+      <section class="px-20 max-md:px-2 mx-2 py-8 max-w-[860px] max-h-full grid grid-rows-[minmax(0,_256px)_1fr_1fr] max-md:grid-rows-[200px_1fr_1fr] gap-6">
+        <img src={logo} alt="Movie logo" class="aspect-auto max-h-full min-h-0 place-self-end justify-self-center transition-all drop-shadow-xl" />
+        <div class="place-self-start flex flex-col">
+          <div class="flex gap-4 max-md:gap-1 items-center mb-4">
             <Likes rating={likes} />
             <Dot />
             <p>{year}</p>
@@ -37,58 +37,53 @@ const trailer = getTrailer(details.videos.results)
             <Dot />
             <Genres genres={genres} />
           </div>
-          <p class="text-zinc-300 py-2 mb-2 rounded-lg three-lines max-w-[950px] leading-loose">{overview}</p>
+          <p class="text-zinc-300 rounded-lg line-clamp-3 max-w-[950px] leading-loose max-xl:bg-zinc-950/30 max-xl:backdrop-blur-sm">{overview}</p>
         </div>
-        <div class="flex flex-col gap-4 place-self-start">
+        <div class="flex flex-col gap-4 place-self-start w-full">
           <Starring cast={cast} amount="7" />
-          <div class="flex gap-5">
+          <!-- <div class="flex gap-5">
             <a
               href={trailer}
               target="_blank"
               data-trailer
-              class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-[266px] h-[76px] py-6 rounded-full border-2 border-rose-500 cursor-pointer"
+              class="relative overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl max-w-[266px] w-full h-[76px] py-6 rounded-full border-2 border-rose-500 cursor-pointer max-sm:text-base max-sm:py-3 max-sm:h-16"
               ><Play />Play Trailer</a
             >
             <button
-              class="relative overflow-hidden custom-hover gradient-two flex items-center justify-center gap-4 text-2xl w-[300px] h-[76px] py-5 bg-zinc-100/15 rounded-full border-2 border-zinc-500/15 backdrop-blur-md"
+              id={movie.id}
+              data-add-to-watchlist
+              class="relative overflow-hidden custom-hover gradient-two flex items-center justify-center gap-4 text-2xl max-w-[300px] w-full h-[76px] py-5 bg-zinc-100/15 rounded-full border-2 border-zinc-500/15 backdrop-blur-md whitespace-nowrap max-sm:text-sm max-sm:py-3 max-sm:h-16"
               ><Plus />My Watchlist</button
             >
           </div>
+        </div> -->
         </div>
       </section>
     </div>
   </div>
-</header>
+  <style>
+    .responsive-font {
+      font-size: clamp(10px, 2vw, 1.125rem);
+    }
 
-<style>
-  .three-lines {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .custom-grid {
-    display: grid;
-    grid-template-rows: 1fr 165px 300px;
-  }
-  .image {
-    background: center / cover no-repeat;
-  }
-  .shadow {
-    background: linear-gradient(to right, black 0%, rgba(0, 0, 0, 0.8) 25%, transparent 75%);
-  }
-  .custom-hover::after {
-    content: '';
-    @apply w-full h-full absolute transition duration-500 opacity-0;
-  }
-  .custom-hover:hover::after {
-    @apply opacity-100;
-  }
-  .gradient-one::after {
-    background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 69%);
-  }
-  .gradient-two::after {
-    background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 69%);
-  }
-</style>
+    .image {
+      background: center / cover no-repeat;
+    }
+    .shadow {
+      background: linear-gradient(to right, black 0%, rgba(0, 0, 0, 0.8) 25%, transparent 75%);
+    }
+    .custom-hover::after {
+      content: '';
+      @apply w-full h-full absolute transition duration-500 opacity-0;
+    }
+    .custom-hover:hover::after {
+      @apply opacity-100;
+    }
+    .gradient-one::after {
+      background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 69%);
+    }
+    .gradient-two::after {
+      background-image: radial-gradient(farthest-corner at 50% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 69%);
+    }
+  </style>
+</header>
