@@ -2,6 +2,7 @@
 import '@fontsource/poppins'
 import MovieOverview from '../components/MovieOverview.astro'
 import Watchlist from '../components/Watchlist.astro'
+import Loading from '../components/Loading.astro'
 const { title } = Astro.props
 ---
 
@@ -12,20 +13,18 @@ const { title } = Astro.props
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon" />
   </head>
-  <body class="bg-zinc-950 text-white overflow-x-hidden overflow-auto tracking-wide">
+  <body class="bg-zinc-950 text-white overflow-auto tracking-wide">
+    <Loading />
     <Watchlist />
     <MovieOverview />
-    <div class="px-8">
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
 
 <style is:global>
-  html {
+  body {
     font-family: 'Poppins', sans-serif;
-    scrollbar-gutter: stable;
   }
 </style>
