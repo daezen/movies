@@ -64,26 +64,26 @@ class Watchlist {
   string(watched, movie) {
     const stringWatched = `
        <div data-watchlist-movie class="mb-4">
-         <div class="relative aspect-video rounded-xl overflow-hidden bg-zinc-900 mb-2">
+         <div class="relative aspect-video max-md:rounded-lg rounded-xl overflow-hidden bg-zinc-900 mb-2">
           <div class="absolute bg-zinc-950/80 w-full h-full flex items-center justify-center flex-col gap-2 font-extralight text-zinc-300">
             <button data-watchlist-markaswatched class="transition flex items-center gap-1 text-lime-200" id="${movie.id}">Marked as watched<span class="h-5 inline-block">${check}</span></button>
             <button data-watchlist-remove class="hover:text-zinc-50 transition" id="${movie.id}">Remove</button>
           </div>
            <img src="${getBackdrop(movie.backdrop_path)}" alt="${movie.title}" class="rounded-lg" />
          </div>
-         <p class="text-center cursor-pointer hover:text-rose-300 transition">${movie.title}</p>
+         <p class="text-center cursor-pointer hover:text-rose-300 transition text-[clamp(10px,2vw,1rem)]">${movie.title}</p>
        </div>`
 
     const stringUnwatched = `
        <div data-watchlist-movie class="mb-4">
-         <div class="relative aspect-video rounded-xl overflow-hidden bg-zinc-900 mb-2">
+         <div class="relative aspect-video max-md:rounded-lg rounded-xl overflow-hidden bg-zinc-900 mb-2">
           <div class="absolute bg-zinc-950/80 w-full h-full opacity-0 hover:opacity-100 flex items-center justify-center flex-col gap-2 font-extralight text-zinc-300">
             <button data-watchlist-markaswatched class="hover:brightness-110 flex items-center gap-1 transition" id="${movie.id}">Mark as watched</button>
             <button data-watchlist-remove class="hover:text-zinc-50 transition" id="${movie.id}">Remove</button>
           </div>
            <img src="${getBackdrop(movie.backdrop_path)}" alt="${movie.title}" class="rounded-lg" />
          </div>
-         <p class="text-center cursor-pointer hover:text-rose-300 transition">${movie.title}</p>
+         <p class="text-center cursor-pointer hover:text-rose-300 transition text-[clamp(10px,2vw,1rem)]">${movie.title}</p>
        </div>`
     if (watched) return stringWatched
     if (!watched) return stringUnwatched
