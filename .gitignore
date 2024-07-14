@@ -5,7 +5,7 @@
 
 # dependencies
 node_modules/
-src/lib/api.js
+src/lib/apiKey.js
 
 # logs
 npm-debug.log*
