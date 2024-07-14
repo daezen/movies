@@ -91,6 +91,5 @@ class Watchlist {
 }
 
 const watchlist = new Watchlist()
-watchlist.open()
 
 export { watchlist }
