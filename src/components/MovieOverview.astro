@@ -6,8 +6,8 @@ import Plus from '../icons/Plus.astro'
 import Dot from './Dot.astro'
 ---
 
-<div data-overview class="fixed h-screen w-screen py-4 z-[99] overflow-auto bg-black/80 backdrop-blur-md overscroll-contain translate-y-full transition-transform">
-  <article class="w-[916px] bg-zinc-900 rounded-3xl overflow-hidden mx-auto">
+<div data-overview class="text-[clamp(10px,2.25vw,1rem)] fixed h-screen w-screen py-4 z-[98] overflow-auto bg-black/80 backdrop-blur-md overscroll-contain translate-y-full transition-transform">
+  <article class="max-w-[916px] w-[95vw] bg-zinc-900 rounded-3xl overflow-hidden mx-auto">
     <div class="relative">
       <section class="flex flex-col aspect-video w-full bg-center bg-cover">
         <img data-overview-img src="" alt="" class="absolute aspect-video mask-image" />
@@ -24,25 +24,25 @@ import Dot from './Dot.astro'
             >
             <button
               data-add-to-watchlist-overview
-              class="relative overflow-hidden custom-hover gradient-one border-zinc-100/25 bg-zinc-100/10 flex items-center justify-center gap-4 text-2xl size-11 py-1 rounded-full border-2 border-rose-500 backdrop-blur-xl"
+              class="relative overflow-hidden custom-hover gradient-one border-zinc-100/25 bg-zinc-100/10 flex items-center justify-center gap-4 text-2xl size-11 py-1 rounded-full border-2 border-rose-500 backdrop-blur-xl disabled"
               ><Plus /></button
             >
           </div>
         </div>
       </section>
     </div>
-    <section class="px-12 flex">
-      <div class="w-[560px]">
-        <div class="flex-1 py-5 flex gap-2">
+    <section class="px-12 max-md:px-4 grid gap-4 max-sm:gap-1 grid-cols-[2fr,1fr]">
+      <div>
+        <div class="flex-1 py-5 flex gap-2 max-sm:gap-1">
           <p class="flex items-center gap-2">
-            <span class="size-6 text-green-500"><ThumbsUp /></span><span data-overview-likes class="text-green-500">70%</span>Likes
+            <span class="size-6 max-sm:size-4 text-green-500"><ThumbsUp /></span><span data-overview-likes class="text-green-500">70%</span><span class="max-sm:hidden">Likes</span>
           </p>
           <Dot />
           <p data-overview-year>2024</p>
           <Dot />
-          <p data-overview-rating class="bg-zinc-100 bg-opacity-40 text-base backdrop-blur-lg rounded-full px-4" title="Rating">R</p>
+          <p data-overview-rating class="bg-zinc-100 bg-opacity-40 backdrop-blur-lg rounded-full px-4 max-sm:px-1 line-clamp-1 max-h-6" title="Rating">R</p>
           <Dot />
-          <p data-overview-duration>1h 30m</p>
+          <p data-overview-duration class="line-clamp-1">1h 30m</p>
         </div>
         <div data-overview-description class="mr-4 rounded-md">
           <div class="skeleton description--skeleton"></div>
@@ -50,23 +50,23 @@ import Dot from './Dot.astro'
           <div class="skeleton description--skeleton"></div>
         </div>
       </div>
-      <div class="text-sm py-2 flex flex-col gap-4 flex-1">
+      <div class="py-2 flex flex-col gap-4 flex-1">
         <p data-overview-cast><span class="text-zinc-500">Cast: </span></p>
         <p data-overview-categories><span class="text-zinc-500">Genres: </span></p>
       </div>
     </section>
-    <div class="px-12 py-14 text-2xl font-bold">
+    <div class="px-12 max-md:px-4 pt-14 pb-4 text-[clamp(12px,3.5vw,1.5rem)] font-bold">
       <p class="mb-4">More Like This</p>
-      <div data-overview-morelike class="flex justify-between">
-        <div data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
+      <div data-overview-morelike class="grid grid-cols-3 gap-2">
+        <div data-overview-morelike-preview class="aspect-video skeleton max-h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
+          <img src="" alt="" class="mb-2 h-full pointer-events-none" />
+          <p class="truncate max-w-[250px]"></p>
+        </div>
+        <div data-overview-morelike-preview class="aspect-video skeleton max-h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
           <img src="" alt="" class="mb-2 h-full pointer-events-none" />
           <p class="text-base truncate max-w-[250px]"></p>
         </div>
-        <div data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
-          <img src="" alt="" class="mb-2 h-full pointer-events-none" />
-          <p class="text-base truncate max-w-[250px]"></p>
-        </div>
-        <div data-overview-morelike-preview class="aspect-video skeleton h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
+        <div data-overview-morelike-preview class="aspect-video skeleton max-h-36 rounded-md overflow-hidden bg-zinc-800 cursor-pointer">
           <img src="" alt="" class="mb-2 h-full pointer-events-none" />
           <p class="text-base truncate max-w-[250px]"></p>
         </div>
@@ -96,6 +96,10 @@ import Dot from './Dot.astro'
     @apply w-3/4;
   }
 
+  .disabled {
+    @apply brightness-[0.45];
+  }
+
   @keyframes skeleton-pulse {
     0% {
       @apply bg-zinc-800;
@@ -110,10 +114,10 @@ import Dot from './Dot.astro'
   import { Overview } from '../lib/overview'
   import { $on, qs } from '../lib/lib'
 
+  $on(qs('[data-overview-close]'), 'click', () => Overview.toggle(false))
   $on(qs('[data-overview-morelike]'), 'click', e => {
     if (e.target.matches('[data-overview-morelike-preview]')) {
-      Overview.update(+e.target.id)
+      Overview.toggle(true, +e.target.id)
     }
   })
-  $on(qs('[data-overview-close]'), 'click', () => Overview.toggle(false))
 </script>

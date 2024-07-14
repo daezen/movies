@@ -9,7 +9,7 @@ const { results: movies } = await res.json()
 const src = path => `https://image.tmdb.org/t/p/w780${path}`
 ---
 
-<div class="flex gap-6 w-screen overflow-auto pr-20 mb-10" data-carousel={kind}>
+<div class="flex gap-6 w-screen overflow-auto pr-20 mb-10 max-sm:mb-6" data-carousel={kind}>
   {movies.map(movie => <MoviePreview src={src(movie.backdrop_path)} name={movie.title} rating={movie.vote_average} id={movie.id} />)}
 </div>
 

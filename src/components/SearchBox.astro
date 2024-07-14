@@ -2,13 +2,13 @@
 import Search from '../icons/Search.astro'
 ---
 
-<form class="flex h-16 p-1 relative">
-  <input type="text" placeholder="Search" class="bg-transparent focus:outline-none px-6 text-sm flex-1" />
-  <button type="button" class="p-4 h-full aspect-square bg-zinc-500/10 rounded-full cursor-default">
+<form class="flex p-1 relative">
+  <input type="text" placeholder="Search" class="bg-transparent focus:outline-none w-full min-w-20 pl-4 text-sm text-[clamp(12px,2vw,0.875rem)]" />
+  <button type="button" class="p-3 max-w-12 w-full min-w-10 bg-zinc-500/10 rounded-full cursor-default">
     <Search />
   </button>
 </form>
-<div data-results style="display: none;" class="z-50 absolute w-[800px] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 flex gap-4 flex-col"></div>
+<div data-results style="display: none;" class="z-50 absolute max-w-[600px] w-[95vw] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 flex gap-4 flex-col"></div>
 
 <script>
   import { getBackdrop } from '../lib/apiUtils'
@@ -57,7 +57,7 @@ import Search from '../icons/Search.astro'
       $results.insertAdjacentHTML('beforeend', string)
     }
     movies.forEach(movie => {
-      const string = resultHTML(movie.backdrop_path, movie.title, movie.release_date, movie.id)
+      const string = resultHTML(movie.poster_path, movie.title, movie.release_date, movie.id)
       $results.insertAdjacentHTML('beforeend', string)
     })
     results.show()
@@ -80,13 +80,13 @@ import Search from '../icons/Search.astro'
       backdrop = getBackdrop(backdrop, 'sm')
       year = new Date(year).getFullYear()
       html = `
-              <a id="${movieId}" class="text-base h-36 flex gap-4 cursor-pointer group">
-                <div class="h-full aspect-video rounded-lg overflow-hidden flex-initial">
-                  <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full saturate-50 group-hover:saturate-100 transition" />
+              <a id="${movieId}" class="text-base grid grid-cols-[90px,minmax(0,1fr)] gap-4 cursor-pointer group">
+                <div class="h-36 aspect-[10/16] rounded-lg overflow-hidden flex-initial">
+                  <img src="${backdrop}" alt="Movie poster" loading="lazy" class="h-full w-full saturate-[0.75] group-hover:saturate-100 transition" />
                 </div>
-                <div class="w-3/5">
-                  <p class="truncate group-hover:text-rose-300 transition">${title}</p>
-                  <p class="font-light text-zinc-300 group-hover:text-zinc-500 transition">${year}</p>
+                <div class="max-w-3/5">
+                  <p class="truncate text-ellipsis group-hover:text-rose-300 transition text-[clamp(12px,2vw,1em)]">${title}</p>
+                  <p class="font-light text-zinc-300 group-hover:text-zinc-500 transition text-[clamp(12px,2vw,1em)]">${year}</p>
                 </div>
               </a>`
     }
@@ -119,8 +119,8 @@ import Search from '../icons/Search.astro'
     }
   })
   $on($results, 'click', e => {
-    Overview.update(e.target.closest('a').id)
-    Overview.toggle(true)
+    const id = e.target.closest('a').id
+    Overview.toggle(true, id)
   })
   $on($input, 'focus', onFocus)
   $on($input, 'keydown', onKeydown)

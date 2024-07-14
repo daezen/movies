@@ -2,11 +2,11 @@
 import Carousel from './Carousel.astro'
 ---
 
-<div data-carousels>
-  <p class="mb-4 text-2xl font-semibold select-none">Trending</p>
+<div data-carousels class="px-8 max-sm:px-2 overflow-hidden">
+  <p class="mb-4 font-semibold select-none text-[clamp(16px,4vw,1.5rem)]">Trending</p>
   <Carousel kind="popular" />
 
-  <p class="mb-4 text-2xl font-semibold select-none">Top Rated</p>
+  <p class="mb-4 font-semibold select-none text-[clamp(16px,4vw,1.5rem)]">Top Rated</p>
   <Carousel kind="top_rated" />
 </div>
 
@@ -14,9 +14,10 @@ import Carousel from './Carousel.astro'
   import { qs, $on, $off } from '../lib/lib'
   import { Overview } from '../lib/overview'
   import options from '../lib/apiKey.js'
+  import { loading } from '../lib/loading.js'
   const $carousels = qs('[data-carousels]')
-  let pos = { l: 0, x: 0 }
   let $carousel
+  let pos = { l: 0, x: 0 }
 
   function onMouseDown({ target, pageX: x }) {
     $carousel = target.closest('[data-carousel]')
@@ -45,18 +46,19 @@ import Carousel from './Carousel.astro'
     if (e.target.matches('[data-play]')) return await findTrailer(e)
     if (e.target.matches('[data-link]')) {
       e.preventDefault()
-      Overview.toggle(true)
-      Overview.update(e.target.id)
+      Overview.toggle(true, e.target.id)
     }
   }
 
   async function findTrailer(e) {
+    loading.show('Loading')
     e.preventDefault()
     const res = await fetch(`https://api.themoviedb.org/3/movie/${e.target.id}/videos`, options)
     const { results: trailers } = await res.json()
     const trailer = trailers?.filter(trailer => trailer.type == 'Trailer')
     try {
       window.open(`https://youtu.be/${trailer[0].key}`, '_blank')
+      loading.hide()
     } catch (error) {
       console.log(error)
     }

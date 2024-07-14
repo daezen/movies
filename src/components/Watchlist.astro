@@ -2,13 +2,15 @@
 import Close from '../icons/Close.astro'
 ---
 
-<div data-watchlist-container class="fixed overscroll-contain z-[100] flex items-end justify-center w-screen h-screen bg-black/80 backdrop-blur-md hidden">
-  <div class="bg-zinc-950 rounded-t-2xl h-[95vh]">
-    <header class="w-full grid grid-cols-3 text-center text-2xl p-6 font-semibold">
-      <p class="title">My watchlist</p>
-      <button data-watchlist-close class="h-10 close justify-self-end"><Close /></button>
-    </header>
-    <div data-watchlist class="grid grid-cols-3 gap-4 p-4"></div>
+<div data-watchlist-container class="fixed overscroll-contain overflow-auto z-[100] pt-20 w-screen h-screen bg-black/80 backdrop-blur-md hidden">
+  <div class="w-full flex justify-center">
+    <div class="bg-zinc-950 rounded-2xl w-[1000px] min-h-[95vh]">
+      <header class="w-full grid grid-cols-3 text-center text-2xl p-6 font-semibold">
+        <p class="title text-[clamp(12px,3vw,1.5rem)] whitespace-nowrap">My watchlist</p>
+        <button data-watchlist-close class="h-10 max-md:h-6 close justify-self-end"><Close /></button>
+      </header>
+      <div data-watchlist class="grid grid-cols-3 max-md:grid-cols-2 gap-4 p-4"></div>
+    </div>
   </div>
 </div>
 
@@ -28,10 +30,21 @@ import Close from '../icons/Close.astro'
 
 <script>
   import { watchlist } from '../lib/watchlist.js'
-  import { $on } from '../lib/lib.js'
+  import { $on, qs } from '../lib/lib.js'
+  const $addToWatchlistOverview = qs('[data-add-to-watchlist-overview]')
 
   $on(document, 'click', ({ target: $ }) => {
     if ($.matches('[data-mywatchlist]')) watchlist.open()
     if ($.matches('[data-watchlist-close]')) watchlist.close()
+    if ($.matches('[data-add-to-watchlist]')) watchlist.add(+$.id)
+    if ($.matches('[data-watchlist-remove]')) watchlist.remove(+$.id)
+    if ($ === $addToWatchlistOverview) {
+      if ($addToWatchlistOverview.classList.contains('disabled')) return
+      watchlist.add(+$.id)
+    }
+    if ($.matches('[data-watchlist-markaswatched]')) {
+      const $movie = $.closest('[data-watchlist-movie]')
+      watchlist.markAsWatched(+$.id, $movie)
+    }
   })
 </script>

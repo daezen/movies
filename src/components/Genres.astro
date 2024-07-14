@@ -3,10 +3,12 @@ const { genres } = Astro.props
 const genresSliced = genres.slice(0, 2)
 ---
 
-{
-  genresSliced.map((genre, index) => {
-    if (index === genresSliced.length - 1) {
-      return <p>{genre.name}</p>
-    } else return <p>{genre.name},</p>
-  })
-}
+<div class="flex gap-2 line-clamp-1">
+  {
+    genresSliced.map((genre, index) => {
+      if (index === genresSliced.length - 1) {
+        return <p>{genre.name}</p>
+      } else return <p>{genre.name},</p>
+    })
+  }
+</div>

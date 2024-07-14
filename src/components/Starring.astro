@@ -3,9 +3,9 @@ import Actor from './Actor.astro'
 const { cast, amount } = Astro.props
 ---
 
-<div class="py-1 mb-8">
-  <h3 class="font-semibold mb-6 text-xl">STARRING:</h3>
-  <div class="flex gap-4">
+<div class="py-1 mb-8 max-2xl:hidden">
+  <h3 class="font-semibold mb-6 text-[clamp(12px_3vw_1.25rem)]">STARRING:</h3>
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(40px,_1fr))] gap-4">
     {
       cast.slice(0, amount).map(actor => {
         if (actor.profile_path !== null)
