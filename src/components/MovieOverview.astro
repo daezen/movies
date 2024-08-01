@@ -15,16 +15,16 @@ import Dot from './Dot.astro'
           <button data-overview-close class="rounded-full bg-zinc-950/75 backdrop-blur-xl p-1"><Close /></button>
         </div>
         <div class="flex-1 flex items-end">
-          <div class="pb-16 pl-12 mx-1 flex gap-2">
+          <div class="pb-16 pl-12 max-sm:pb-4 max-sm:pl-3 max-md:pb-8 max-md:pl-6 mx-1 flex gap-2">
             <a
               target="_blank"
               data-overview-trailer
-              class="relative cursor-pointer overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-[165px] h-[45px] py-1 rounded-full border-2 border-rose-500"
+              class="relative cursor-pointer overflow-hidden custom-hover gradient-one bg-rose-600 flex items-center justify-center gap-4 text-2xl w-[165px] h-[45px] max-sm:h-[30px] max-sm:w-[100px] max-lg:w-[140px] max-lg:h-[40px] text-[clamp(10px,2vw,1.5rem)] py-1 rounded-full border-2 border-rose-500"
               ><Play />Trailer</a
             >
             <button
               data-add-to-watchlist-overview
-              class="relative overflow-hidden custom-hover gradient-one border-zinc-100/25 bg-zinc-100/10 flex items-center justify-center gap-4 text-2xl size-11 py-1 rounded-full border-2 border-rose-500 backdrop-blur-xl disabled"
+              class="relative overflow-hidden custom-hover gradient-one border-zinc-100/25 bg-zinc-100/10 flex items-center justify-center gap-4 text-2xl size-11 max-sm:size-[30px] max-lg:size-[40px] py-1 rounded-full border-2 border-rose-500 backdrop-blur-xl disabled"
               ><Plus /></button
             >
           </div>
