@@ -71,7 +71,7 @@ class Watchlist {
           </div>
            <img src="${getBackdrop(movie.backdrop_path)}" alt="${movie.title}" class="rounded-lg" />
          </div>
-         <p class="text-center cursor-pointer hover:text-rose-300 transition text-[clamp(10px,2vw,1rem)]">${movie.title}</p>
+         <p id="${movie.id}" class="text-center cursor-pointer hover:text-rose-300 transition text-[clamp(10px,2vw,1rem)]">${movie.title}</p>
        </div>`
 
     const stringUnwatched = `
@@ -83,7 +83,7 @@ class Watchlist {
           </div>
            <img src="${getBackdrop(movie.backdrop_path)}" alt="${movie.title}" class="rounded-lg" />
          </div>
-         <p class="text-center cursor-pointer hover:text-rose-300 transition text-[clamp(10px,2vw,1rem)]">${movie.title}</p>
+         <p data-watchlist-title id="${movie.id}" class="text-center cursor-pointer hover:text-rose-300 transition text-[clamp(10px,2vw,1rem)]">${movie.title}</p>
        </div>`
     if (watched) return stringWatched
     if (!watched) return stringUnwatched

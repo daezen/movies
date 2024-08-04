@@ -31,9 +31,14 @@ import Close from '../icons/Close.astro'
 <script>
   import { watchlist } from '../lib/watchlist.js'
   import { $on, qs } from '../lib/lib.js'
+  import { Overview } from '../lib/overview'
   const $addToWatchlistOverview = qs('[data-add-to-watchlist-overview]')
 
   $on(document, 'click', ({ target: $ }) => {
+    if ($.matches('[data-watchlist-title]')) {
+      watchlist.close()
+      Overview.toggle(true, $.id)
+    }
     if ($.matches('[data-mywatchlist]')) watchlist.open()
     if ($.matches('[data-watchlist-close]')) watchlist.close()
     if ($.matches('[data-add-to-watchlist]')) watchlist.add(+$.id)
