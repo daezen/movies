@@ -158,6 +158,5 @@ class MovieOverview {
 }
 
 const Overview = new MovieOverview()
-Overview.toggle(true)
 
 export { Overview }
