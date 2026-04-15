@@ -9,6 +9,7 @@ import Play from '../icons/Play.astro'
 import Plus from '../icons/Plus.astro'
 
 const movie = await getRandomMovie()
+if (!movie) return
 const details = await getMovieDetails(movie.id)
 const genres = details.genres
 const overview = movie.overview

@@ -1,4 +1,11 @@
-import options from './apiKey'
+const token = import.meta.env.PUBLIC_TMDB_TOKEN
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: `Bearer ${token}`,
+  },
+}
 
 const IMG_URL = `https://image.tmdb.org/t/p/`
 const BG_SIZE = {
@@ -18,24 +25,38 @@ const LOGO_SIZE = {
 }
 
 async function getRandomMovie() {
-  const res = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
+  const res = await fetch(
+    'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
+    options,
+  )
   const { results: movies } = await res.json()
+  if (!movies) return
   const index = Math.floor(Math.random() * 19)
   const details = await getMovieDetails(movies[index].id)
-  if (getLogo(details.images) === 'None' || getBackdrop(movies[index].backdrop_path) === 'None' || getCertification(details.release_dates.results) === 'None') {
+  if (
+    getLogo(details.images) === 'None' ||
+    getBackdrop(movies[index].backdrop_path) === 'None' ||
+    getCertification(details.release_dates.results) === 'None'
+  ) {
     return await getRandomMovie()
   }
   return movies[index]
 }
 
 async function getMovieDetails(movieId) {
-  const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Csimilar%2Cimages%2Ccredits%2Crelease_dates&language=en`, options)
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos%2Csimilar%2Cimages%2Ccredits%2Crelease_dates&language=en`,
+    options,
+  )
   const { genres, videos, images, credits, release_dates } = await res.json()
   return { genres, videos, images, credits, release_dates }
 }
 
 async function getMovie(movieId) {
-  const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`, options)
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+    options,
+  )
   const movie = res.json()
   return movie
 }
@@ -54,14 +75,17 @@ function getLogo(images, size) {
 }
 
 function getActors(credits) {
-  const actors = credits.cast.filter(actor => actor.known_for_department === 'Acting')
+  const actors = credits.cast.filter(
+    actor => actor.known_for_department === 'Acting',
+  )
   return actors
 }
 
 function getCertification(certs) {
   if (!certs || certs.length === 0) return 'None'
   const usCert = certs.find(cert => cert.iso_3166_1 === 'US')
-  if (!usCert || !usCert.release_dates || usCert.release_dates.length === 0) return 'None'
+  if (!usCert || !usCert.release_dates || usCert.release_dates.length === 0)
+    return 'None'
   const cert = usCert.release_dates.find(cert => cert.certification !== '')
   if (!cert) return 'None'
   return cert.certification
@@ -73,4 +97,14 @@ function getTrailer(videos) {
   return `https://youtu.be/${trailerData.key}`
 }
 
-export { getRandomMovie, getMovieDetails, getMovie, getBackdrop, getLogo, getActors, getCertification, getTrailer }
+export {
+  getRandomMovie,
+  getMovieDetails,
+  getMovie,
+  getBackdrop,
+  getLogo,
+  getActors,
+  getCertification,
+  getTrailer,
+  options,
+}

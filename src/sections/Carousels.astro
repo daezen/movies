@@ -13,8 +13,9 @@ import Carousel from './Carousel.astro'
 <script>
   import { qs, $on, $off } from '../lib/lib'
   import { Overview } from '../lib/overview'
-  import options from '../lib/apiKey.js'
   import { loading } from '../lib/loading.js'
+  import { options } from '../lib/apiUtils.js'
+
   const $carousels = qs('[data-carousels]')
   let $carousel
   let pos = { l: 0, x: 0 }
