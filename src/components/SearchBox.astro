@@ -11,9 +11,8 @@ import Search from '../icons/Search.astro'
 <div data-results style="display: none;" class="z-50 absolute max-w-[600px] w-[95vw] top-[72px] left-1/2 -translate-x-1/2 bg-zinc-950/75 backdrop-blur-3xl rounded-3xl p-4 flex gap-4 flex-col"></div>
 
 <script>
-  import { getBackdrop } from '../lib/apiUtils'
+import { getBackdrop, options } from '../lib/apiUtils'
   import { qs, $on } from '../lib/lib'
-  import options from '../lib/apiKey.js'
   import { Overview } from '../lib/overview'
   const $input = qs('input')
   const isEmpty = () => $input.value === ''
